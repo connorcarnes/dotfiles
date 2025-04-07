@@ -1,0 +1,7 @@
+[user]
+	name = Connor Carnes
+	email = connorcarnes@pm.me
+[init]
+	defaultBranch = main
+[core]
+	editor = code

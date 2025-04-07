@@ -1,0 +1,6 @@
+{{ if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
+Program Files
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+opt
+{{ end }}
