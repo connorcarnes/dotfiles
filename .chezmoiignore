@@ -1,6 +1,7 @@
 {{ if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
-Program Files
+AppData
+Documents
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
-opt
+.config
 {{ end }}
