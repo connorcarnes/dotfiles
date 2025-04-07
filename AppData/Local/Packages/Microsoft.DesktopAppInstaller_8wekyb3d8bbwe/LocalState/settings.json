@@ -1,0 +1,25 @@
+// expirimental features only available in preview builds per: https://learn.microsoft.com/en-us/windows/package-manager/winget/settings
+// For documentation on these settings, see: https://aka.ms/winget-setting
+// Settings file is located in %LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json
+// If you are using the non-packaged WinGet version by building it from source code, the file will be located under %LOCALAPPDATA%\Microsoft\WinGet\Settings\settings.json
+{
+    "$schema": "https://aka.ms/winget-settings.schema.json",
+    "experimentalFeatures": {
+      "configureSelfElevate": true,
+      "configureExport": true
+    },
+    "visual": {
+      "enableSixels": true,
+      "progressBar": "sixel"
+    },
+    "telemetry": {
+        "disable": true
+    }
+    // "configureBehavior": {
+    //   // default is "%LOCALAPPDATA%/Microsoft/WinGet/Configuration/Modules/"
+    //   "defaultModuleRoot": "%USERPROFILE%\Documents\PowerShell\Modules"
+    // },
+    // "logging": {
+    //     "level": "verbose" | "info" | "warning" | "error" | "critical"
+    // },
+}
