@@ -1,0 +1,62 @@
+/*
+    Changes the appearance of tabs in Firefox. Makes it easier to distinguish between container tabs.
+    - Tab background color matches the container tab color
+    - Unselected tabs have a lower opacity, hovering over them increases it and the currently selected tab has the highest opacity
+    - Hides close buttons on tabs until hovered over
+    How to use:
+    - Visit the about:config page and set toolkit.legacyUserProfileCustomizations.stylesheets to true
+    - Visit the about:profiles page and open the root directory of your default profile. Note, there will
+      likely be two sections, default-release and default. Look at the table for each and choose the one
+      that says "Default Profile: yes".
+    - Create a folder named "chrome" in that directory if there isn't one already
+    - Copy this file into the chrome directory you just created. Make sure it's named "userchrome.css"
+    - Restart Firefox
+    See Also:
+    - https://support.mozilla.org/en-US/kb/contributors-guide-firefox-advanced-customization#w_what-does-userchrome-css-do
+    - https://github.com/xarantolus/userchrome.css
+    - https://www.userchrome.org/
+*/
+
+#tabbrowser-tabs .tab-context-line {
+    display: none;
+}
+
+/* Base styles for tab backgrounds */
+#tabbrowser-tabs .tab-background {
+    transition: opacity 0.2s ease-in-out !important;
+    background-color: var(--identity-icon-color, #fff) !important;
+    opacity: 0.3 !important;
+}
+
+/* Hover effect for non-selected tabs */
+#tabbrowser-tabs .tabbrowser-tab:hover .tab-background {
+    opacity: 0.6 !important;
+}
+
+/* Selected and focused states - with highest specificity */
+#main-window #tabbrowser-tabs .tabbrowser-tab[selected="true"] .tab-background,
+#main-window #tabbrowser-tabs .tabbrowser-tab:focus-within .tab-background,
+#main-window #tabbrowser-tabs .tabbrowser-tab[selected="true"]:hover .tab-background,
+#main-window #tabbrowser-tabs .tabbrowser-tab:focus-within:hover .tab-background {
+    opacity: 1 !important;
+}
+
+/* Hide close buttons on tabs */
+tab[selected="true"]>stack>hbox>.tab-close-button {
+    opacity: 1 !important;
+    display: block !important;
+    transition: .25s all ease-in-out !important;
+}
+
+tab:not([selected="true"])>stack>hbox>.tab-close-button {
+    opacity: 0 !important;
+    transform: scale(0) !important;
+    transition: .25s all ease-in-out !important;
+}
+
+/* Adds gradient to tab background */
+#tabbrowser-tabs .tab-background {
+    background-image: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.1),
+            rgba(0, 0, 0, 0.1)) !important;
+}

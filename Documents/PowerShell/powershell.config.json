@@ -1,0 +1,29 @@
+{
+    "Microsoft.PowerShell:ExecutionPolicy": "RemoteSigned",
+    "WindowsPowerShellCompatibilityModuleDenyList": [
+        "PSScheduledJob",
+        "BestPractices",
+        "UpdateServices"
+    ],
+    "ScriptExecution": {
+        "ExecutionPolicy": "RemoteSigned"
+    },
+    "ScriptBlockLogging": {
+        "EnableScriptBlockInvocationLogging": true,
+        "EnableScriptBlockLogging": true
+    },
+    "LogLevel": "verbose",
+    "LogChannels": [
+        "Operational",
+        "Analytic"
+    ],
+    "ProtectedEventLogging": {
+        "EnableProtectedEventLogging": false,
+        "EncryptionCertificate": []
+    },
+    "Transcription": {
+        "EnableTranscripting": false,
+        "EnableInvocationHeader": false,
+        "OutputDirectory": ""
+    }
+}
