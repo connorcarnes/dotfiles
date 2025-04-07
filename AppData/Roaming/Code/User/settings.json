@@ -1,119 +1,360 @@
 {
-    "$help": "https://aka.ms/terminal-documentation",
-    "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions":
-    [
-        {
-            "command":
-            {
-                "action": "copy",
-                "singleLine": false
-            },
-            "id": "User.copy.644BA8F2"
-        },
-        {
-            "command": "paste",
-            "id": "User.paste"
-        },
-        {
-            "command": "find",
-            "id": "User.find"
-        },
-        {
-            "command":
-            {
-                "action": "splitPane",
-                "split": "auto",
-                "splitMode": "duplicate"
-            },
-            "id": "User.splitPane.A6751878"
-        }
-    ],
-    "copyFormatting": "none",
-    "copyOnSelect": false,
-    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-    "keybindings":
-    [
-        {
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+c"
-        },
-        {
-            "id": "User.paste",
-            "keys": "ctrl+v"
-        },
-        {
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "id": "User.splitPane.A6751878",
-            "keys": "alt+shift+d"
-        }
-    ],
-    "minimizeToNotificationArea": false,
-    "newTabMenu":
-    [
-        {
-            "type": "remainingProfiles"
-        }
-    ],
-    "profiles":
-    {
-        "defaults":
-        {
-            "font":
-            {
-                "face": "MesloLGM Nerd Font"
-            }
-        },
-        "list":
-        [
-            {
-                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-                "hidden": false,
-                "name": "PowerShell",
-                "source": "Windows.Terminal.PowershellCore"
-            },
-            {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
-            },
-            {
-                "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
-                "hidden": false,
-                "name": "Debian",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "colorScheme": "Campbell",
-                "commandline": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"",
-                "elevate": true,
-                "guid": "{ba48a4ae-5d20-4f79-bb22-0c2f62a9adcb}",
-                "hidden": false,
-                "icon": "ms-appx:///ProfileIcons/pwsh.png",
-                "name": "PowerShell Admin",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "colorScheme": "One Half Dark",
-                "commandline": "ssh connor@koprulu",
-                "guid": "{64d40864-5565-4af9-87c2-640660db6261}",
-                "hidden": false,
-                "icon": "ms-appx:///ProfileIcons/pwsh.png",
-                "intenseTextStyle": "all",
-                "name": "koprulu-pwsh",
-                "suppressApplicationTitle": true
-            },
-            {
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "hidden": false,
-                "name": "Command Prompt"
-            }
-        ]
+    "files.associations": {
+      "*.tftpl": "terraform"
     },
-    "schemes": [],
-    "themes": [],
-    "useAcrylicInTabRow": false
-}
+    //SETTINGS CHANGES
+    "breadcrumbs.enabled": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.enableDragAndDrop": true,
+    "explorer.decorations.colors": true,
+    "explorer.sortOrder": "type",
+    "explorer.confirmDelete": false,
+    "omnisharp.projectLoadTimeout": 120,
+    "workbench.settings.editor": "json",
+    "workbench.tree.indent": 15,
+    "workbench.editor.titleScrollbarSizing": "large",
+    //LOOK AND FEEL CHANGES
+    //editor
+    "editor.bracketPairColorization.enabled": true,
+    "editor.accessibilitySupport": "off",
+    "editor.autoClosingQuotes": "never",
+    "editor.autoSurround": "never",
+    "editor.cursorBlinking": "expand",
+    "editor.minimap.enabled": false,
+    "editor.mouseWheelZoom": true,
+    "editor.quickSuggestionsDelay": 1,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "editor.tabCompletion": "on",
+    "editor.suggestSelection": "first",
+    "editor.snippetSuggestions": "bottom",
+    "editor.wordSeparators": "`~!@#%^&*()-=+[{]}\\|;:'\",.<>/?",
+    // "editor.fontFamily": "Lucida Console",
+    //https://github.com/tonsky/FiraCode/wiki/VS-Code-Instructions
+    // "editor.fontFamily": "Fira Code",
+    // "editor.fontFamily": "Fira Code Retina",
+    //https://github.com/microsoft/cascadia-code/blob/master/README.md
+    //https://github.com/adam7/delugia-code/releases
+    "editor.fontFamily": "'CaskaydiaCove NF','Delugia Mono Nerd Font','Cascadia Mono','Delugia Nerd Font','Cascadia Code','Consolas','Courier New','monospace'",
+    // "editor.fontFamily": "Consolas",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 15,
+    // zenMode - full screen editing changes
+    "zenMode.centerLayout": false,
+    "zenMode.fullScreen": true,
+    "zenMode.hideLineNumbers": false,
+    "window.title": "${activeEditorLong}",
+    //files
+    "files.trimTrailingWhitespace": true,
+    "files.defaultLanguage": "powershell",
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.showWelcomeMessage": false,
+    //TERMINAL
+    "terminal.integrated.profiles.windows": {
+      "winpwsh": {
+        "path": "C:/Program Files/PowerShell/7/pwsh.exe",
+      }
+    },
+    "terminal.integrated.profiles.linux": {
+      "linpwsh": {
+        "path": "/usr/bin/pwsh",
+      }
+    },
+    "terminal.integrated.defaultProfile.windows": "winpwsh",
+    "terminal.integrated.defaultProfile.linux": "linpwsh",
+    "terminal.integrated.rendererType": "auto",
+    "terminal.integrated.scrollback": 8000,
+    "terminal.integrated.fontSize": 15,
+     "terminal.integrated.fontFamily": "'MesloLGM Nerd Font','CaskaydiaCove NF','Delugia Mono Nerd Font','Cascadia Mono','Delugia Nerd Font','Cascadia Code','Consolas','Courier New','monospace'",
+    // "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    // "terminal.integrated.shell.linux": "/snap/powershell/36/opt/powershell/pwsh",
+    //LANGUAGE SPECIFIC CHANGES
+    //PowerShell
+    // "powershell.powerShellAdditionalExePaths": {
+    //   "WINPS7": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    //   "PS7": "/opt/homebrew/Cellar/powershell/7.4.0/bin/pwsh"
+    //   //"PS5.1": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    // },
+    // "powershell.powerShellDefaultVersion": "PS7",
+    "powershell.codeFormatting.preset": "Stroustrup",
+    "powershell.codeFormatting.autoCorrectAliases": true,
+    "powershell.developer.featureFlags": ["PSReadLine"],
+    "powershell.developer.editorServicesLogLevel": "Normal",
+    "powershell.integratedConsole.showOnStartup": false,
+    "powershell.integratedConsole.focusConsoleOnExecute": true,
+    "powershell.startAutomatically": true,
+    "powershell.scriptAnalysis.enable": true,
+    //python
+    // "python.formatting.provider": "black",
+    // "python.formatting.blackArgs": ["--line-length", "110"],
+    // "python.formatting.blackPath":"c:/python38/lib/site-packages/black",
+    "python.formatting.provider": "autopep8",
+    // "python.formatting.provider": "yapf",
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.flake8Enabled": false,
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.autoTestDiscoverOnSaveEnabled": false,
+    "python.languageServer": "Pylance",
+    //csharp
+    // "csharp.suppressDotnetInstallWarning": true,
+    //yaml
+    "yaml.customTags": [
+      "!And",
+      "!If",
+      "!Not",
+      "!Equals sequence",
+      "!Or",
+      "!FindInMap sequence",
+      "!Base64",
+      "!Cidr",
+      "!Ref",
+      "!Sub",
+      "!GetAtt",
+      "!GetAZs",
+      "!ImportValue",
+      "!Select sequence",
+      "!Split",
+      "!Join sequence",
+      "!And sequence",
+      "!If sequence",
+      "!Not sequence",
+      "!Equals",
+      "!Or sequence",
+      "!FindInMap",
+      "!Join",
+      "!Sub sequence",
+      "!ImportValue sequence",
+      "!Select",
+      "!Split sequence"
+    ],
+    //plain
+    "[plaintext]": {
+      "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "off"
+      }
+    },
+    //EXTENSION SPECIFIC SETTINGS
+    //yaml
+    //"yaml.validate": false,
+    //"yaml.format.singleQuote": true,
+    //shell launcher
+    "shellLauncher.shells.windows": [
+      {
+        "shell": "C:\\Windows\\system32\\cmd.exe",
+        "label": "cmd"
+      },
+      {
+        "shell": "C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "label": "PowerShell 5.1"
+      },
+      {
+        "shell": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+        "label": "PowerShell 7"
+      },
+      {
+        "shell": "C:\\Python39\\python.exe",
+        "label": "Python39"
+      }
+    ],
+    //better comments
+    "better-comments.tags": [
+      {
+        "tag": "!",
+        "color": "#FF2D00",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "?",
+        "color": "#3498DB",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "//",
+        "color": "#474747",
+        "strikethrough": true,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "todo",
+        "color": "#FF8C00",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      },
+      {
+        "tag": "*",
+        "color": "#98C379",
+        "strikethrough": false,
+        "backgroundColor": "transparent"
+      }
+    ],
+    "code-runner.executorMap": {
+      "python": "$pythonPath -u $fullFileName",
+      "go": "go run",
+      "powershell": "pwsh -ExecutionPolicy ByPass -File",
+      "bat": "cmd /c",
+      "csharp": "scriptcs",
+      "vbscript": "cscript //Nologo",
+      "typescript": "ts-node"
+    },
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.showExecutionMessage": false,
+    "code-runner.ignoreSelection": true,
+    "code-runner.saveFileBeforeRun": true,
+    "mssql.connections": [
+      {
+        "server": "{{put-server-name-here}}",
+        "database": "{{put-database-name-here}}",
+        "user": "{{put-username-here}}",
+        "password": "{{put-password-here}}"
+      }
+    ],
+    "azureFunctions.projectLanguage": "PowerShell",
+    "azureFunctions.projectRuntime": "~3",
+    "azureFunctions.showTargetFrameworkWarning": true,
+    "workbench.editorAssociations": {
+      "*.ipynb": "jupyter-notebook"
+    },
+    "editor.semanticHighlighting.enabled": true,
+    "editor.semanticTokenColorCustomizations": {
+      "[]": {
+        "enabled": true
+      }
+    },
+    "redhat.telemetry.enabled": false,
+    "security.allowedUNCHosts": [
+        "wsl.localhost"
+      ],
+    "security.workspace.trust.untrustedFiles": "open",
+    // "terminal.integrated.defaultProfile.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe (migrated)",
+    // "terminal.integrated.automationShell.windows": "",
+    // "terminal.integrated.profiles.windows": {
+    //   "C:\\Program Files\\PowerShell\\7\\pwsh.exe (migrated)": {
+    //     "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    //     "args": []
+    //   }
+    // },
+    "notebook.cellToolbarLocation": {
+      "default": "right",
+      "jupyter-notebook": "left"
+    },
+    // "yaml.schemas": {
+    //   "file:///c%3A/Users/connor/AppData/Roaming/Code/User/globalStorage/amazonwebservices.aws-toolkit-vscode/sam.schema.json": [
+    //     "module-5/cfn/real-time-streaming.yml",
+    //     "module-6/cfn/customer-questions.yml",
+    //     "module-7/app/service/cfn/recommendations-service.yml"
+    //   ]
+    // },
+    "workbench.colorTheme": "Brackets Light Pro",
+    "json.schemas": [],
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.enable": {
+      "*": true,
+      "yaml": true,
+      "plaintext": false,
+      "markdown": false
+    },
+    "powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    //"editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "ms-vscode.powershell",
+    "editor.formatOnSave": true,
+    "files.autoSave": "onFocusChange",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "powershell.buttons.showPanelMovementButtons": true,
+    "editor.formatOnPaste": true,
+    "powershell.codeFormatting.useConstantStrings": true,
+    "powershell.cwd": "c:\\code",
+    "powershell.integratedConsole.suppressStartupBanner": true,
+    "go.toolsManagement.autoUpdate": true,
+    "workbench.startupEditor": "none",
+    // Language Settings
+    "[python]": {
+      "editor.tabSize": 4,
+      "editor.formatOnType": true,
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "ms-python.python"
+    },
+    "[powershell]": {
+      "editor.tabSize": 4,
+      "files.encoding": "utf8bom",
+      "files.autoGuessEncoding": true,
+      "editor.formatOnSave": true,
+      "editor.parameterHints.enabled": false,
+      "editor.defaultFormatter": "ms-vscode.powershell"
+    },
+    "[terraform]": {
+      "editor.tabSize": 2
+    },
+    // "[markdown]": {
+    //   "editor.unicodeHighlight.ambiguousCharacters": false,
+    //   "editor.unicodeHighlight.invisibleCharacters": false,
+    //   "diffEditor.ignoreTrimWhitespace": false,
+    //   "editor.wordWrap": "on",
+    //   "editor.quickSuggestions": {
+    //     "comments": "off",
+    //     "strings": "off",
+    //     "other": "off",
+    //     "editor.quickSuggestions": true
+    //   }
+    // },
+    "[json]": {
+      "editor.tabSize": 4,
+      "editor.formatOnSave": true
+    },
+    "[yaml]": {
+      "editor.tabSize": 2,
+      "editor.formatOnSave": true,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false
+    },
+    "html.format.wrapLineLength": 150,
+    "html.hover.documentation": false,
+    "git.confirmSync": false,
+    "[svg]": {
+      "editor.defaultFormatter": "jock.svg",
+      "editor.wordWrap": "bounded",
+      "editor.wordWrapColumn": 200
+    },
+    "window.zoomLevel": 1,
+    "editor.guides.bracketPairs": true,
+    "powershell.promptToUpdatePowerShell": false,
+    // "markdownlint.config": {
+    //   "default": true,
+    //   "MD007": {
+    //     "indent": 4
+    //   },
+    //   "no-hard-tabs": false
+    // },
+    "powershell.suppressAdditionalExeNotFoundWarning": true,
+    "aws.telemetry": false,
+    "files.exclude": {
+      "**/.git": false
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": false,
+      "**/.git/subtree-cache/**": false,
+      "**/node_modules/*/**": false
+    },
+    "aws.suppressPrompts": {
+      "yamlExtPrompt": true
+    },
+    "aws.samcli.lambdaTimeout": 91234,
+    "[css]": {
+      "editor.defaultFormatter": "vscode.css-language-features"
+    },
+    "peacock.remoteColor": "#832561",
+    //"peacock.remoteColor": "#f9e64f"
+    	"remote.SSH.remotePlatform": {
+        "koprulu": "windows",
+      },
+      "hediet.vscode-drawio.resizeImages": null,
+  }
