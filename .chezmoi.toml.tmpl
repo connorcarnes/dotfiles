@@ -1,0 +1,16 @@
+{{- $peacockColor := "#efceb7" -}}
+
+{{ $devcontainer = (env "REMOTE_CONTAINERS") }}
+
+[data]
+devcontainer = {{ $devcontainer | quote }}
+{{- if .devcontainer }}
+peacockColor =  "#00bfff"
+{{- else }}
+peacockColor = {{ $peacockColor }}
+{{- end }}
+
+[edit]
+command = "code"
+args = ["--wait"]
+

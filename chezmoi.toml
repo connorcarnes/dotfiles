@@ -1,9 +1,0 @@
-[edit]
-    command = "code"
-    args = ["--wait"]
-[merge]
-command = "pwsh"
-args = [
-    "-c",
-    "cp {{ .Target }} {{ .Target }}.base && code --new-window --wait --merge {{ .Destination }} {{ .Target }} {{ .Target }}.base {{ .Source }}",
-]
