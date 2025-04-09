@@ -48,7 +48,7 @@ $RequiredResources = @{
     'InvokeBuild'                           = @{version = '[0.0.0.1, ]' }
     'SecretManagement.Warden'               = @{version = '[0.0.0.1, ]' }
 }
-$ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_) }
+$ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_ -ErrorAction 'Continue') }
 $ToSkip = $RequiredResources.Keys | Where-Object { $ToInstall -notcontains $_ }
 $ToSkip | ForEach-Object {
     $RequiredResources.Remove($_)
@@ -218,34 +218,35 @@ function Install-NerdFont {
                 break
             }
         }
-        if ($IsMacOS) {
-            Write-Warning 'Update profile function Install-NerdFont to support macos'
+    }
+    if ($IsMacOS) {
+        Write-Warning 'Update profile function Install-NerdFont to support macos'
+    }
+    if ($IsWindows) {
+        $FontRegKeys = @(
+            'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+            'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+        )
+        foreach ($Key in $FontRegKeys) {
+            $Fonts = (Get-Item -Path $Key).Property
+            $FontInstalled = [bool]($Fonts -match $Font)
+            if ($FontInstalled -eq $true) {
+                Write-Verbose "$Font is installed."
+                break
+            }
         }
-        if ($IsWindows) {
-            $FontRegKeys = @(
-                'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-                'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-            )
-            foreach ($Key in $FontRegKeys) {
-                $Fonts = (Get-Item -Path $Key).Property
-                $FontInstalled = [bool]($Fonts -match $Font)
-                if ($FontInstalled -eq $true) {
-                    Write-Verbose "$Font is installed."
-                    break
-                }
-            }
-            if (-not $FontInstalled) {
-                Write-Warning "$Font is not installed. Install it with: oh-my-posh font install $FontLibrary"
-            }
+        if (-not $FontInstalled) {
+            Write-Warning "$Font is not installed. Install it with: oh-my-posh font install $FontLibrary"
         }
     }
-    Install-NerdFont
+}
+Install-NerdFont
 
-    $OhMyPwshConfig = "$HOME\.oh-my-posh\custom.omp.json"
-    if ($OhMyPwshConfig) {
-        oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
-    }
-    else {
-        Write-Warning "$OhMyPwshConfig not found, default theme will be applied"
-        oh-my-posh init pwsh | Invoke-Expression
-    }
+$OhMyPwshConfig = "$HOME\.oh-my-posh\custom.omp.json"
+if ($OhMyPwshConfig) {
+    oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
+}
+else {
+    Write-Warning "$OhMyPwshConfig not found, default theme will be applied"
+    oh-my-posh init pwsh | Invoke-Expression
+}
