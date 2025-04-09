@@ -1,4 +1,4 @@
 #! /usr/bin/pwsh
 {{ if contains .chezmoi.commandDir "workflow" }}
-'{{ dict "peacock.color" .peacockColor | toJson}}' | Out-File -FilePath {{ joinPath .chezmoi.commandDir ".vscode.settings.json" | quote}} -Force
+'{{ dict "peacock.color" .peacockColor | toJson}}' | Out-File -FilePath {{ joinPath .chezmoi.commandDir ".vscode/settings.json" | quote}} -Force
 {{ end }}
