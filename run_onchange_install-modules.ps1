@@ -1,3 +1,5 @@
+#! /usr/bin/pwsh
+
 $RequiredResources = @{
     'Microsoft.PowerShell.PSResourceGet'    = @{version = '[0.0.0.1, ]' }
     'Microsoft.WinGet.Configuration'        = @{version = '[0.0.0.1, ]' }
