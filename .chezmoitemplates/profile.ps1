@@ -41,7 +41,7 @@ $RequiredResources = @{
     'Microsoft.PowerShell.SecretManagement' = @{version = '[0.0.0.1, ]' }
     'Microsoft.PowerShell.SecretStore'      = @{version = '[0.0.0.1, ]' }
     'posh-git'                              = @{version = '[0.0.0.1, ]' }
-    'PSReadLine'                            = @{version = '[0.0.0.1, ]' ; PreRelease = $true }
+    'PSReadLine'                            = @{version = '[0.0.0.1, ]' ; PreRelease = $true ; Reinstall = $true }
     'Pester'                                = @{version = '[0.0.0.1, ]' }
     'Terminal-Icons'                        = @{version = '[0.0.0.1, ]' }
     'PSScriptAnalyzer'                      = @{version = '[0.0.0.1, ]' }
@@ -51,7 +51,12 @@ $RequiredResources = @{
 $ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_ -ErrorAction 'SilentlyContinue') }
 $ToSkip = $RequiredResources.Keys | Where-Object { $ToInstall -notcontains $_ }
 $ToSkip | ForEach-Object {
-    $RequiredResources.Remove($_)
+    if ($RequiredResources.$_.Reinstall) {
+        Write-Verbose "$_ marked for reinstallation"
+    }
+    else {
+        $RequiredResources.Remove($_)
+    }
 }
 if (-not $ToInstall) {
     Write-Verbose 'No modules to install'
