@@ -82,7 +82,6 @@ foreach ($module in $modulesToLoad) {
 
 
 # PSReadline
-Write-Host 'start psreadline'
 $Splat = @{
     EditMode            = 'Windows'
     #PredictionSource    = 'History'
@@ -93,8 +92,7 @@ $Splat = @{
     HistorySaveStyle    = 'SaveIncrementally'
 }
 Set-PSReadLineOption @Splat
-$PSReadlineOptions = Get-PSReadLineOption
-Write-Host 'end psreadline'
+# $PSReadlineOptions = Get-PSReadLineOption
 # $PSReadlineOptions.HistorySavePath
 # $PSReadlineOptions.MaximumHistoryCount
 # $PSReadlineOptions.HistorySaveStyle
