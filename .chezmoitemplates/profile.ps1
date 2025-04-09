@@ -47,6 +47,7 @@ $RequiredResources = @{
     'PSScriptAnalyzer'                      = @{version = '[0.0.0.1, ]' }
     'InvokeBuild'                           = @{version = '[0.0.0.1, ]' }
     'SecretManagement.Warden'               = @{version = '[0.0.0.1, ]' }
+    'ProfileAsync'                          = @{version = '[0.0.0.1, ]' }
 }
 $ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_ -ErrorAction 'SilentlyContinue') }
 $ToSkip = $RequiredResources.Keys | Where-Object { $ToInstall -notcontains $_ }
