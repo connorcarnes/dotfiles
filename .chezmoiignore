@@ -7,3 +7,6 @@ AppData/Local/Microsoft/PowerToys/PowerToys Run
 .config
 {{ end }}
 install.sh
+{{ if eq (base .chezmoi.commandDir) "chezmoi"}}
+run_set_vscode_workspace_settings.ps1.tmpl
+{{ end }}
