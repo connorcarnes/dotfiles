@@ -164,6 +164,13 @@ function Get-PwshProfilePaths {
 #     }
 # }
 
+# chmod a+x equivalent
+# $acl = Get-Acl .\install.sh
+# $permission = 'Everyone', 'Execute', 'Allow'
+# $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
+# $acl.AddAccessRule($accessRule)
+# Set-Acl .\install.sh $acl
+
 function Install-NerdFont {
     [CmdletBinding()]
     param (
