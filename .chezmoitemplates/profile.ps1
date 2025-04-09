@@ -41,7 +41,7 @@ $RequiredResources = @{
     'Microsoft.PowerShell.SecretManagement' = @{version = '[0.0.0.1, ]' }
     'Microsoft.PowerShell.SecretStore'      = @{version = '[0.0.0.1, ]' }
     'posh-git'                              = @{version = '[0.0.0.1, ]' }
-    'PSReadLine'                            = @{version = '[0.0.0.1, ]' }
+    'PSReadLine'                            = @{version = '[0.0.0.1, ]' ; PreRelease = $true }
     'Pester'                                = @{version = '[0.0.0.1, ]' }
     'Terminal-Icons'                        = @{version = '[0.0.0.1, ]' }
     'PSScriptAnalyzer'                      = @{version = '[0.0.0.1, ]' }

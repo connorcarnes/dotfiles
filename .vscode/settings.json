@@ -1,4 +1,6 @@
-{ //#df9f9f
+{
+    // test
+    //#df9f9f
     //"peacock.color": "#eeeeee",
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#ffffff",
