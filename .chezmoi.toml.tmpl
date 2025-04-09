@@ -6,10 +6,10 @@
 
 [data]
 devcontainer = {{ $devcontainer | quote }}
-{{- if $devcontainer }}
+{{- if eq $devcontainer "true" }}
 peacockColor =  "#00bfff"
 {{- else }}
-peacockColor = {{ $peacockColor }}
+peacockColor = {{ $peacockColor | quote}}
 {{- end }}
 
 [edit]
