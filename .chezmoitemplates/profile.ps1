@@ -48,7 +48,7 @@ $RequiredResources = @{
     'InvokeBuild'                           = @{version = '[0.0.0.1, ]' }
     'SecretManagement.Warden'               = @{version = '[0.0.0.1, ]' }
 }
-$ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_ -ErrorAction 'Continue') }
+$ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_ -ErrorAction 'SilentlyContinue') }
 $ToSkip = $RequiredResources.Keys | Where-Object { $ToInstall -notcontains $_ }
 $ToSkip | ForEach-Object {
     $RequiredResources.Remove($_)
@@ -205,13 +205,12 @@ function Install-NerdFont {
     )
     $FontInstalled = $false
     if ($IsLinux) {
-        Write-Warning 'Update profile function Install-NerdFont to support linux'
         $FontPaths = @(
             '/usr/share/fonts'
             '~/.local/share/fonts'
         )
         foreach ($Path in $FontPaths) {
-            $Fonts = (Get-ChildItem $Path).name
+            $Fonts = (Get-ChildItem $Path -ErrorAction SilentlyContinue).name
             $FontInstalled = [bool]($Fonts -match $Font)
             if ($FontInstalled -eq $true) {
                 Write-Verbose "$Font is installed."
