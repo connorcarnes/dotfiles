@@ -77,8 +77,11 @@ foreach ($module in $modulesToLoad) {
 
 
 # PSReadline
+Write-Host 'start psreadline'
 $Splat = @{
-    PredictionSource    = 'History'
+    EditMode            = 'Windows'
+    #PredictionSource    = 'History'
+    PredictionSource    = 'HistoryAndPlugin'
     Colors              = @{ InlinePrediction = '#2F7004' } #green
     PredictionViewStyle = 'ListView' #you may prefer InlineView
     MaximumHistoryCount = 10000
@@ -86,6 +89,7 @@ $Splat = @{
 }
 Set-PSReadLineOption @Splat
 $PSReadlineOptions = Get-PSReadLineOption
+Write-Host 'end psreadline'
 # $PSReadlineOptions.HistorySavePath
 # $PSReadlineOptions.MaximumHistoryCount
 # $PSReadlineOptions.HistorySaveStyle
