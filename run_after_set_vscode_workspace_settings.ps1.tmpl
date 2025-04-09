@@ -1,0 +1,3 @@
+#! /usr/bin/pwsh
+
+{{ dict "peacock.color" .peacockColor | toJson | quote}} | Out-File -Path {{ joinPath .chezmoi.commandDir ".vscode.settings.json" | quote}} -Force
