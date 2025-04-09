@@ -34,6 +34,32 @@
 
 Write-Host 'Loading profile...' -ForegroundColor Cyan
 
+Set-PSResourceRepository -Name PSGallery -Trusted
+$RequiredResources = @{
+    'Microsoft.PowerShell.PSResourceGet'    = @{version = '[0.0.0.1, ]' }
+    'Microsoft.WinGet.Configuration'        = @{version = '[0.0.0.1, ]' }
+    'Microsoft.PowerShell.SecretManagement' = @{version = '[0.0.0.1, ]' }
+    'Microsoft.PowerShell.SecretStore'      = @{version = '[0.0.0.1, ]' }
+    'posh-git'                              = @{version = '[0.0.0.1, ]' }
+    'PSReadLine'                            = @{version = '[0.0.0.1, ]' }
+    'Pester'                                = @{version = '[0.0.0.1, ]' }
+    'Terminal-Icons'                        = @{version = '[0.0.0.1, ]' }
+    'PSScriptAnalyzer'                      = @{version = '[0.0.0.1, ]' }
+    'InvokeBuild'                           = @{version = '[0.0.0.1, ]' }
+    'SecretManagement.Warden'               = @{version = '[0.0.0.1, ]' }
+}
+$ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_) }
+$ToSkip = $RequiredResources.Keys | Where-Object { $ToInstall -notcontains $_ }
+$ToSkip | ForEach-Object {
+    $RequiredResources.Remove($_)
+}
+if (-not $ToInstall) {
+    Write-Verbose 'No modules to install'
+}
+else {
+    Write-Verbose "Installing modules: $($ToInstall -join ', ')"
+    Install-PSResource -RequiredResource $RequiredResources
+}
 
 # Module Imports
 $modulesToLoad = @(
@@ -180,35 +206,46 @@ function Install-NerdFont {
     $FontInstalled = $false
     if ($IsLinux) {
         Write-Warning 'Update profile function Install-NerdFont to support linux'
-    }
-    if ($IsMacOS) {
-        Write-Warning 'Update profile function Install-NerdFont to support macos'
-    }
-    if ($IsWindows) {
-        $FontRegKeys = @(
-            'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-            'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+        $FontPaths = @(
+            '/usr/share/fonts'
+            '~/.local/share/fonts'
         )
-        foreach ($Key in $FontRegKeys) {
-            $Fonts = (Get-Item -Path $Key).Property
+        foreach ($Path in $FontPaths) {
+            $Fonts = (Get-ChildItem $Path).name
             $FontInstalled = [bool]($Fonts -match $Font)
             if ($FontInstalled -eq $true) {
                 Write-Verbose "$Font is installed."
                 break
             }
         }
-        if (-not $FontInstalled) {
-            Write-Warning "$Font is not installed. Install it with: oh-my-posh font install $FontLibrary"
+        if ($IsMacOS) {
+            Write-Warning 'Update profile function Install-NerdFont to support macos'
+        }
+        if ($IsWindows) {
+            $FontRegKeys = @(
+                'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+                'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+            )
+            foreach ($Key in $FontRegKeys) {
+                $Fonts = (Get-Item -Path $Key).Property
+                $FontInstalled = [bool]($Fonts -match $Font)
+                if ($FontInstalled -eq $true) {
+                    Write-Verbose "$Font is installed."
+                    break
+                }
+            }
+            if (-not $FontInstalled) {
+                Write-Warning "$Font is not installed. Install it with: oh-my-posh font install $FontLibrary"
+            }
         }
     }
-}
-Install-NerdFont
+    Install-NerdFont
 
-$OhMyPwshConfig = "$HOME\.oh-my-posh\custom.omp.json"
-if ($OhMyPwshConfig) {
-    oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
-}
-else {
-    Write-Warning "$OhMyPwshConfig not found, default theme will be applied"
-    oh-my-posh init pwsh | Invoke-Expression
-}
+    $OhMyPwshConfig = "$HOME\.oh-my-posh\custom.omp.json"
+    if ($OhMyPwshConfig) {
+        oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
+    }
+    else {
+        Write-Warning "$OhMyPwshConfig not found, default theme will be applied"
+        oh-my-posh init pwsh | Invoke-Expression
+    }
