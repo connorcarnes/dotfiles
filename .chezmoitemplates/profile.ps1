@@ -229,7 +229,6 @@ else {
 }
 
 $AsyncScriptblock = {
-    . $ENV:CHEZMOI_PATH/PSHelpers/InstallModules.ps1
     . $ENV:CHEZMOI_PATH/PSHelpers/VSCodeExtensions.ps1
 }
 Import-ProfileAsync $AsyncScriptblock
