@@ -20,7 +20,7 @@
   "ContainersProxyHTTPMode": "",
   "Cpus": 12,
   "CredentialHelper": "docker-credential-wincred.exe",
-  "CustomWslDistroDir": "C:\\Users\\connor\\AppData\\Local\\Docker\\wsl\\DockerDesktopWSL",
+  "CustomWslDistroDir": {{ joinPath .chezmoi.homeDir "AppData/Local/Docker/wsl/DockerDesktopWSL" | quote}},
   "DataFolder": "C:\\ProgramData\\DockerDesktop\\vm-data",
   "DefaultSnapshotter": "overlayfs",
   "DeprecatedCgroupv1": false,
