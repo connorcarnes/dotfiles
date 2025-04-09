@@ -3,7 +3,7 @@ $ToInstall = (Get-Content "$ChezmoiPath/.extensions.json" | ConvertFrom-Json)
 $Installed = $(code --list-extensions)
 
 $ToInstall | ForEach-Object {
-    if ($_ -in $Using:Installed) {
+    if ($_ -in $Installed) {
         Write-Verbose "Extension $_ already installed"
     }
     else {
