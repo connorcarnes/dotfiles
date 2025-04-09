@@ -1,5 +1,4 @@
 #! /usr/bin/pwsh
 
-$Content = '{{ dict "peacock.color" .peacockColor | toJson}}'
-New-Item -Path {{ joinPath .chezmoi.commandDir ".vscode/settings.json" | quote}} -Value $Content -Force
+New-Item -Path {{ joinPath .chezmoi.commandDir ".vscode/settings.json" | quote}} -Value '{{ dict "peacock.color" .peacockColor | toJson}}' -Force
 
