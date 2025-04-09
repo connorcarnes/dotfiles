@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# created via chezmoi generate install.sh
 # -e: exit on error
 # -u: exit on unset variables
 set -eu
