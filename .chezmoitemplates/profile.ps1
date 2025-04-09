@@ -164,13 +164,44 @@ function Get-PwshProfilePaths {
 #     }
 # }
 
-# $SystemFontRegKey = 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-# $UserFontRegKey = 'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-# $data = Get-Item $SystemFontRegKey
-# $data.Property -match "meslo"
-# https://ohmyposh.dev/docs/themes
-# oh-my-posh font install meslo
-#$OhMyPwshConfig = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/refs/heads/main/themes/tiwahu.omp.json'
-# My prompt is the tiwahu theme but updated to use default git template: https://ohmyposh.dev/docs/segments/scm/git#template-info
-$OhMyPwshConfig = 'C:\code\lab\.mytheme.omp.json'
-oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
+function Install-NerdFont {
+    [CmdletBinding()]
+    param (
+        [string]$Font = 'MesloLGM Nerd Font',
+        [string]$FontLibrary = 'meslo'
+    )
+    $FontInstalled = $false
+    if ($IsLinux) {
+        Write-Warning 'Update profile function Install-NerdFont to support linux'
+    }
+    if ($IsMacOS) {
+        Write-Warning 'Update profile function Install-NerdFont to support macos'
+    }
+    if ($IsWindows) {
+        $FontRegKeys = @(
+            'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+            'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
+        )
+        foreach ($Key in $FontRegKeys) {
+            $Fonts = (Get-Item -Path $Key).Property
+            $FontInstalled = [bool]($Fonts -match $Font)
+            if ($FontInstalled -eq $true) {
+                Write-Verbose "$Font is installed."
+                break
+            }
+        }
+        if (-not $FontInstalled) {
+            Write-Warning "$Font is not installed. Install it with: oh-my-posh font install $FontLibrary"
+        }
+    }
+}
+Install-NerdFont
+
+$OhMyPwshConfig = "$HOME\.oh-my-posh\custom.omp.json"
+if ($OhMyPwshConfig) {
+    oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
+}
+else {
+    Write-Warning "$OhMyPwshConfig not found, default theme will be applied"
+    oh-my-posh init pwsh | Invoke-Expression
+}

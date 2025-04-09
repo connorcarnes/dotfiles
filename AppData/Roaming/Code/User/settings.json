@@ -241,6 +241,7 @@
   "peacock.color": "#eeeeee",
   "remote.SSH.remotePlatform": {
     "koprulu": "windows",
+    "koprulu-labadm": "windows"
   },
   "hediet.vscode-drawio.resizeImages": true,
 }
