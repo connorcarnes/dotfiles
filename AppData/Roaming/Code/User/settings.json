@@ -245,5 +245,6 @@
   },
   "hediet.vscode-drawio.resizeImages": true,
   "dotfiles.repository": "sociotechnodev/dotfiles",
-  "dotfiles.targetPath": "~/.local/share/chezmoi",
+  //"dotfiles.targetPath": "~/.local/share/chezmoi",
+  //"dotfiles.installCommand": ""
 }
