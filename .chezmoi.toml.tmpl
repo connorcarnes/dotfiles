@@ -1,10 +1,12 @@
 {{- $peacockColor := "#efceb7" -}}
-
-{{ $devcontainer = (env "REMOTE_CONTAINERS") }}
+{{- $devcontainer := (env "REMOTE_CONTAINERS") -}}
+{{ if not $devcontainer }}
+{{ $devcontainer = "false" }}
+{{- end -}}
 
 [data]
 devcontainer = {{ $devcontainer | quote }}
-{{- if .devcontainer }}
+{{- if $devcontainer }}
 peacockColor =  "#00bfff"
 {{- else }}
 peacockColor = {{ $peacockColor }}
