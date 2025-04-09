@@ -237,8 +237,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
-  //"peacock.remoteColor": {{ .peacockColor | quote }},
-  "peacock.color": {{ .peacockColor | quote }},
   "remote.SSH.remotePlatform": {
     "koprulu": "windows",
     "koprulu-labadm": "windows"
