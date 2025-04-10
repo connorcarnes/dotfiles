@@ -1,16 +1,16 @@
 $ChezmoiPath = $(chezmoi source-path)
 $ToInstall = (Get-Content "$ChezmoiPath/.extensions.json" | ConvertFrom-Json)
 $Installed = $(code --list-extensions)
-$ToSkip = @(
-    'terrastruct.d2'
-)
+# $ToSkip = @(
+#     'terrastruct.d2'
+# )
 $ToInstall | ForEach-Object {
     if ($_ -in $Installed) {
         Write-Verbose "Extension $_ already installed"
     }
-    if ($_ -in $ToSkip) {
-        Write-Verbose "Skipping $_"
-    }
+    # if ($_ -in $ToSkip) {
+    #     Write-Verbose "Skipping $_"
+    # }
     else {
         Write-Verbose "Installing extension $_"
         $null = code --install-extension $_
