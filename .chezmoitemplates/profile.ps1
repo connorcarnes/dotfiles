@@ -86,7 +86,7 @@ if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
     }
 
     $OMPFilePath = "$HOME\.oh-my-posh\custom.omp.json"
-    if (Test-Path $File) {
+    if (Test-Path $OMPFilePath) {
         [System.Environment]::SetEnvironmentVariable('OMP_CONFIG', $OMPFilePath)
         oh-my-posh init pwsh --config  $env:OMP_CONFIG | Invoke-Expression
     }
