@@ -51,7 +51,7 @@ if ($IsLinux -or $IsMacOS) {
 
 if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
     if ($IsLinux -or $IsMacOS) {
-        if (-not (Test-File nohup.out)) {
+        if (-not (Test-Path nohup.out)) {
             # .bashrc will install oh-my-posh
             Start-Process nohup 'pwsh -NoProfile -c "bash"'
         } else {
