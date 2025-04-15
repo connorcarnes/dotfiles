@@ -13,6 +13,15 @@ case $- in
       *) return;;
 esac
 
+if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
+    if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
+        PATH="$HOME/bin:$PATH"
+    fi
+    if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
+fi
+
 if ! ohmyposh="$(command -v oh-my-posh)"; then
 	echo "Installing oh-my-posh" >&2
 	if command -v curl >/dev/null; then

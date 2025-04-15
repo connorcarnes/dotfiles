@@ -51,8 +51,19 @@ if ($IsLinux -or $IsMacOS) {
 
 if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
     if ($IsLinux -or $IsMacOS) {
-        # .bashrc will install oh-my-posh
-        Start-Process nohup 'pwsh -NoProfile -c "bash"'
+        if (-not (Test-File nohup.out)) {
+            # .bashrc will install oh-my-posh
+            Start-Process nohup 'pwsh -NoProfile -c "bash"'
+        } else {
+            $Content = Get-Content nohup.out
+            $InstallComplete = [bool]($Content | Select-String -Pattern '🚀 Installation complete.')
+            if ($InstallComplete) {
+                Write-Verbose 'oh-my-posh installed and available on path'
+            } else {
+                Write-Warning 'oh-my-posh installation in progress...'
+            }
+        }
+
     }
     if ($IsWindows) {
         Write-Warning "Update profile.ps1 to install oh-my-posh on Windows"
