@@ -53,7 +53,7 @@ if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
     if ($IsLinux -or $IsMacOS) {
         if (-not (Test-Path nohup.out)) {
             # .bashrc will install oh-my-posh
-            Start-Process nohup 'pwsh -NoProfile -c "bash"'
+            Start-Process nohup 'pwsh -NoProfile -c "bash -i"'
         } else {
             $Content = Get-Content nohup.out
             $InstallComplete = [bool]($Content | Select-String -Pattern '🚀 Installation complete.')
