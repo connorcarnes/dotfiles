@@ -42,7 +42,8 @@ function Invoke-ChezmoiPSBootstrap {
         $Command = "Install-PSResource -Name $Name -Version '$Version'"
         if ($Reinstall) { $Command += ' -Reinstall' }
         if ($PreRelease) { $Command += ' -Prerelease' }
-        $Commands += "try { $Command -ErrorAction Stop } catch { Write-Error -Message '$($Name) failed to install. $($PSScriptPath)' }"
+        #$Commands += "try { $Command -ErrorAction Stop } catch { Write-Error -Message '$Error[] $($PSScriptPath)' }"
+        $Commands += "try { $Command -ErrorAction Stop } catch { `$msg = '$($PSScriptPath) ' + `$_ ; Write-Error -Message `$msg}"
     }
     if (-not $Commands) {
         Write-Verbose 'No modules to install'

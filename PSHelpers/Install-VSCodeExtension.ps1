@@ -51,3 +51,7 @@ function Install-VSCodeExtension {
         pwsh -NoProfile -Command ($Commands -join '; ')
     }
 }
+
+if ($env:REMOTE_CONTAINERS -and ($env:TERM_PROGRAM = "vscode")) {
+    Install-VSCodeExtension
+}

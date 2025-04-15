@@ -37,6 +37,7 @@ Write-Host 'Loading profile...' -ForegroundColor Cyan
 Set-PSResourceRepository -Name PSGallery -Trusted
 
 if ($IsLinux -or $IsMacOS) {
+    Write-Verbose "loading linux/macOS path variables"
     $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
     [array]::Reverse($NixProfiles)  # user overrides system
     $NixPathLines = Get-Content $NixProfiles -ErrorAction Ignore | Select-String -Pattern '^\s+PATH='
@@ -50,8 +51,10 @@ if ($IsLinux -or $IsMacOS) {
 }
 
 if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    Write-Verbose 'oh-my-posh command not found'
     if ($IsLinux -or $IsMacOS) {
         if (-not (Test-Path nohup.out)) {
+            Write-Verbose 'Executing: Start-Process nohup pwsh -NoProfile -c bash -i'
             # .bashrc will install oh-my-posh
             Start-Process nohup 'pwsh -NoProfile -c "bash -i"'
         } else {
@@ -71,6 +74,7 @@ if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
 }
 
 if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
+    Write-Verbose 'chezmoi command found, setting CHEZMOI_PATH'
     [System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
 }
 
@@ -102,12 +106,15 @@ if (Get-InstalledPSResource -Name 'PSReadLine' -ErrorAction SilentlyContinue) {
 }
 
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+    Write-Verbose 'oh-my-posh command found'
     if (Get-Command Install-NerdFont -ErrorAction SilentlyContinue) {
+        Write-Verbose 'Installing nerd font'
         Install-NerdFont
     }
 
     $OMPFilePath = "$HOME\.oh-my-posh\custom.omp.json"
     if (Test-Path $OMPFilePath) {
+        Write-Verbose "Found $OMPFilePath, initializing oh-my-posh"
         [System.Environment]::SetEnvironmentVariable('OMP_CONFIG', $OMPFilePath)
         oh-my-posh init pwsh --config  $env:OMP_CONFIG | Invoke-Expression
     }
@@ -121,15 +128,17 @@ else {
 }
 
 if (Test-Path $env:CHEZMOI_PATH -ErrorAction Ignore) {
+    Write-Verbose 'Found $($env:CHEZMOI_PATH), creating $ProfileAsyncScriptBlock'
     $ProfileAsyncScriptBlock = {
         . "$ENV:CHEZMOI_PATH/PSHelpers/Misc.ps1"
         . "$ENV:CHEZMOI_PATH/PSHelpers/Install-VSCodeExtension.ps1"
-        Install-VSCodeExtension
     }
     if (Import-Module ProfileAsync -PassThru -ErrorAction Ignore) {
+        Write-Verbose 'Executing Import-ProfileAsync'
         Import-ProfileAsync $ProfileAsyncScriptBlock
     }
     else {
+        Write-Verbose "ProfileAsync module not found."
         . $ProfileAsyncScriptBlock
     }
 }
