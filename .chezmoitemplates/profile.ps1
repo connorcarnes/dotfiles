@@ -36,10 +36,6 @@
 Write-Host 'Loading profile...' -ForegroundColor Cyan
 Set-PSResourceRepository -Name PSGallery -Trusted
 
-if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
-    [System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
-}
-
 if ($IsLinux -or $IsMacOS) {
     $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
     [array]::Reverse($NixProfiles)  # user overrides system
@@ -51,6 +47,10 @@ if ($IsLinux -or $IsMacOS) {
     $PATH = $PATH | Select-Object -Unique
     $env:PATH = @($PATH) -ne '' -join ':'
     Remove-Variable PATH, NixProfiles, NixPathLines, Expressions
+}
+
+if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
+    [System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
 }
 
 # Module Imports
@@ -66,7 +66,6 @@ if ($IsLinux -or $IsMacOS) {
 #         Write-Error $_
 #     }
 # }
-
 
 if (Get-InstalledPSResource -Name 'PSReadLine' -ErrorAction SilentlyContinue) {
     Write-Verbose 'Configuring PSReadLine'
