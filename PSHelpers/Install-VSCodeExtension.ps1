@@ -51,5 +51,3 @@ function Install-VSCodeExtension {
         pwsh -NoProfile -Command ($Commands -join '; ')
     }
 }
-
-Install-VSCodeExtension
