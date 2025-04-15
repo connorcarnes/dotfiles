@@ -99,7 +99,7 @@ else {
     Write-Warning 'oh-my-posh command not found'
 }
 
-if (Test-Path $env:CHEZMOI_PATH) {
+if (Test-Path $env:CHEZMOI_PATH -PassThru -ErrorAction Ignore) {
     $ProfileAsyncScriptBlock = {
         . "$ENV:CHEZMOI_PATH/PSHelpers/Misc.ps1"
         . "$ENV:CHEZMOI_PATH/PSHelpers/Install-VSCodeExtension.ps1"
