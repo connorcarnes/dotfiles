@@ -5,6 +5,8 @@
 # -u: exit on unset variables
 set -eu
 
+bash -c "export PATH=$PATH:/root/.local/bin"
+
 if ! ohmyposh="$(command -v oh-my-posh)"; then
 	echo "Installing oh-my-posh" >&2
 	if command -v curl >/dev/null; then
