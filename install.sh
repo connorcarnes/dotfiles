@@ -5,15 +5,15 @@
 # -u: exit on unset variables
 set -eu
 
-if ! ohmyposh="$(command -v oh-my-posh)"; then
-	echo "Installing oh-my-posh" >&2
-	if command -v curl >/dev/null; then
-		curl -s https://ohmyposh.dev/install.sh | bash -s
-	else
-		echo "To install oh-my-posh, you must have curl installed." >&2
-		exit 1
-	fi
-fi
+# if ! ohmyposh="$(command -v oh-my-posh)"; then
+# 	echo "Installing oh-my-posh" >&2
+# 	if command -v curl >/dev/null; then
+# 		curl -s https://ohmyposh.dev/install.sh | bash -s
+# 	else
+# 		echo "To install oh-my-posh, you must have curl installed." >&2
+# 		exit 1
+# 	fi
+# fi
 
 if ! chezmoi="$(command -v chezmoi)"; then
 	bin_dir="${HOME}/.local/bin"
