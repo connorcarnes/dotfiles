@@ -6,7 +6,9 @@
 set -eu
 
 path_to_add="${HOME}/.local/bin"
-export PATH="${path_to_add}:${PATH}"
+file="/etc/environment"
+current_env=$(cat "$file")
+echo "$current_env" | sed -i.bak 's#^PATH="#'"PATH=\"$path_to_add:"'#' $file
 
 if ! ohmyposh="$(command -v oh-my-posh)"; then
 	echo "Installing oh-my-posh" >&2
