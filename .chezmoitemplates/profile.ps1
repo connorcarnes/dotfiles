@@ -34,8 +34,11 @@
 
 
 Write-Host 'Loading profile...' -ForegroundColor Cyan
-[System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
 Set-PSResourceRepository -Name PSGallery -Trusted
+
+if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
+    [System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
+}
 
 if ($IsLinux -or $IsMacOS) {
     $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
@@ -77,11 +80,6 @@ if (Get-InstalledPSResource -Name 'PSReadLine' -ErrorAction SilentlyContinue) {
     }
     Set-PSReadLineOption @Splat
 }
-
-if (Get-Command Install-NerdFont -ErrorAction SilentlyContinue) {
-    Install-NerdFont
-}
-
 
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
     if (Get-Command Install-NerdFont -ErrorAction SilentlyContinue) {
