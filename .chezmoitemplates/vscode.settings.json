@@ -185,7 +185,8 @@
   },
   "[json]": {
     "editor.tabSize": 2,
-    "editor.formatOnSave": false
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "[yaml]": {
     "editor.tabSize": 2,
