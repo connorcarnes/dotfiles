@@ -31,205 +31,87 @@
     JiraPS
 #>
 
-[System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
+
 
 Write-Host 'Loading profile...' -ForegroundColor Cyan
-
+[System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
 Set-PSResourceRepository -Name PSGallery -Trusted
 
+if ($IsLinux -or $IsMacOS) {
+    $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
+    [array]::Reverse($NixProfiles)  # user overrides system
+    $NixPathLines = Get-Content $NixProfiles -ErrorAction Ignore | Select-String -Pattern '^\s+PATH='
+    $Expressions = @($NixPathLines) -replace '.*PATH\s*=\s*' -replace "^(?<quote>['`"])(.*)(\k<quote>)$", '$1' -split ':' |
+        Where-Object { $_ -ne '$PATH' } | Write-Output | Select-Object -Unique
+    $PATH = $Expressions | ForEach-Object { $ExecutionContext.InvokeCommand.ExpandString($_) }
+    $PATH += $env:PATH -split ':'
+    $PATH = $PATH | Select-Object -Unique
+    $env:PATH = @($PATH) -ne '' -join ':'
+    Remove-Variable PATH, NixProfiles, NixPathLines, Expressions
+}
+
 # Module Imports
-$modulesToLoad = @(
-    'posh-git',
-    'Terminal-Icons'
-)
-foreach ($module in $modulesToLoad) {
-    try {
-        Import-Module $module -ErrorAction Stop
-    }
-    catch {
-        Write-Host "Module $module has failed to load." -ForegroundColor DarkRed
-    }
-}
-
-
-# PSReadline
-$Splat = @{
-    EditMode            = 'Windows'
-    #PredictionSource    = 'History'
-    PredictionSource    = 'HistoryAndPlugin'
-    Colors              = @{ InlinePrediction = '#2F7004' } #green
-    PredictionViewStyle = 'ListView' #you may prefer InlineView
-    MaximumHistoryCount = 10000
-    HistorySaveStyle    = 'SaveIncrementally'
-}
-Set-PSReadLineOption @Splat
-# $PSReadlineOptions = Get-PSReadLineOption
-# $PSReadlineOptions.HistorySavePath
-# $PSReadlineOptions.MaximumHistoryCount
-# $PSReadlineOptions.HistorySaveStyle
-# $PSReadlineOptions.PredictionSource
-
-# Module Logging
-# has to be enabled in config file and per session:
-# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows
-# Need to revisit this, not sure if it's compatible with PSResourceGet
-# For now I removed relevant config from "$PSHOME\powershell.config.json":
-# 'ModuleLogging': {
-#     'EnableModuleLogging': true,
-#     'ModuleNames': [
-#     'PSReadLine', # Found with Get-Module
-#     'Microsoft.WinGet.Client', # Found with Get-InstalledPsResource, missing LogPipelineExecutionDetail
-#     ]
-# }
-#
-# $PwshConfigJSON = Get-Content "$PSHOME\powershell.config.json" | ConvertFrom-Json
-# $PwshConfigJSON.ModuleLogging.ModuleNames |
-#     ForEach-Object {
-#         $module = Get-Module -Name $_
-#         if ($module) {
-#             Write-Verbose "Enabling module logging: $($module.name)"
-#             $module.LogPipelineExecutionDetails = $true
-#         }
+# $modulesToLoad = @(
+#     'posh-git',
+#     'Terminal-Icons'
+# )
+# foreach ($module in $modulesToLoad) {
+#     try {
+#         Import-Module 'asdf'  -ErrorAction Stop
 #     }
-# Get-Syntax
-function Get-Syntax {
-    <#
-        .SYNOPSIS
-        Get beautiful syntax for any cmdlet
-    #>
-    [CmdletBinding()]
-    param (
-        $Command,
-        [switch]
-        $PrettySyntax
-    )
-    $check = Get-Command -Name $Command
-    $params = @{
-        Name   = if ($check.CommandType -eq 'Alias') {
-            Get-Command -Name $check.Definition
-        }
-        else {
-            $Command
-        }
-        Syntax = $true
+#     catch {
+#         Write-Error $_
+#     }
+# }
+
+
+if (Get-InstalledPSResource -Name 'PSReadLine' -ErrorAction SilentlyContinue) {
+    Write-Verbose 'Configuring PSReadLine'
+    $Splat = @{
+        EditMode            = 'Windows'
+        PredictionSource    = 'History'
+        Colors              = @{ InlinePrediction = '#2F7004' } # #2F7004 Green
+        PredictionViewStyle = 'ListView' # Alternative: InlineView
+        MaximumHistoryCount = 10000
+        HistorySaveStyle    = 'SaveIncrementally'
     }
-    $pretty = $true
-    if ($pretty -eq $true) {
-        (Get-Command @params) -replace '(\s(?=\[)|\s(?=-))', "`r`n "
+    Set-PSReadLineOption @Splat
+}
+
+if (Get-Command Install-NerdFont -ErrorAction SilentlyContinue) {
+    Install-NerdFont
+}
+
+
+if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+    if (Get-Command Install-NerdFont -ErrorAction SilentlyContinue) {
+        Install-NerdFont
+    }
+
+    $OMPFilePath = "$HOME\.oh-my-posh\custom.omp.json"
+    if (Test-Path $File) {
+        [System.Environment]::SetEnvironmentVariable('OMP_CONFIG', $OMPFilePath)
+        oh-my-posh init pwsh --config  $env:OMP_CONFIG | Invoke-Expression
     }
     else {
-        Get-Command @params
+        Write-Warning "$env:OMP_CONFIG not found, default theme will be applied"
+        oh-my-posh init pwsh | Invoke-Expression
     }
-}
-
-
-# Get-PwshProfilePaths
-function Get-PwshProfilePaths {
-    $Profile.AllUsersAllHosts
-    $Profile.AllUsersCurrentHost
-    $Profile.CurrentUserAllHosts
-    $Profile.CurrentUserCurrentHost
-}
-
-
-# Custom prompt function
-# function prompt {
-#     <#
-#         .SYNOPSIS
-#         Custom prompt function.
-#         .EXAMPLE
-#         [2022-JUL-30 21:18][..project-starters\aws\aws-backup-automation][main ≡]
-#         >>
-#     #>
-#     $global:promptDateTime = [datetime]::Now
-#     $Global:promptDate = $global:promptDateTime.ToString('yyyy-MMM-dd').ToUpper()
-#     $Global:promptTime = $global:promptDateTime.ToString('HH:mm')
-
-#     # truncate the current location if too long
-#     $currentDirectory = $executionContext.SessionState.Path.CurrentLocation.Path
-#     $consoleWidth = [Console]::WindowWidth
-#     $maxPath = [int]($consoleWidth / 4.5)
-#     if ($currentDirectory.Length -gt $maxPath) {
-#         $currentDirectory = '..' + $currentDirectory.SubString($currentDirectory.Length - $maxPath)
-#     }
-#     $global:promptPath = $currentDirectory
-
-#     $InGitRepo = Write-VcsStatus
-#     if ($InGitRepo) {
-#         Write-Host "[$global:promptDate $global:promptTime]" -ForegroundColor Green -NoNewline
-#         Write-Host "[$global:promptPath]" -ForegroundColor Magenta -NoNewline
-#         Write-Host $InGitRepo.Trim() -NoNewline
-#         "`r`n>>"
-#     }
-#     else {
-#         Write-Host "[$global:promptDate $global:promptTime]" -ForegroundColor Green -NoNewline
-#         Write-Host "[$global:promptPath]" -ForegroundColor Magenta -NoNewline
-#         "`r`n>>"
-#     }
-# }
-
-# chmod a+x equivalent
-# $acl = Get-Acl .\install.sh
-# $permission = 'Everyone', 'Execute', 'Allow'
-# $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
-# $acl.AddAccessRule($accessRule)
-# Set-Acl .\install.sh $acl
-
-function Install-NerdFont {
-    [CmdletBinding()]
-    param (
-        [string]$Font = 'MesloLGM Nerd Font',
-        [string]$FontLibrary = 'meslo'
-    )
-    $FontInstalled = $false
-    if ($IsLinux) {
-        $FontPaths = @(
-            '/usr/share/fonts'
-            '~/.local/share/fonts'
-        )
-        foreach ($Path in $FontPaths) {
-            $Fonts = (Get-ChildItem $Path -ErrorAction SilentlyContinue).name
-            $FontInstalled = [bool]($Fonts -match $Font)
-            if ($FontInstalled -eq $true) {
-                Write-Verbose "$Font is installed."
-                break
-            }
-        }
-    }
-    if ($IsMacOS) {
-        Write-Warning 'Update profile function Install-NerdFont to support macos'
-    }
-    if ($IsWindows) {
-        $FontRegKeys = @(
-            'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-            'HKCU:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts'
-        )
-        foreach ($Key in $FontRegKeys) {
-            $Fonts = (Get-Item -Path $Key).Property
-            $FontInstalled = [bool]($Fonts -match $Font)
-            if ($FontInstalled -eq $true) {
-                Write-Verbose "$Font is installed."
-                break
-            }
-        }
-        if (-not $FontInstalled) {
-            Write-Warning "$Font is not installed. Install it with: oh-my-posh font install $FontLibrary"
-        }
-    }
-}
-Install-NerdFont
-
-$OhMyPwshConfig = "$HOME\.oh-my-posh\custom.omp.json"
-if ($OhMyPwshConfig) {
-    oh-my-posh init pwsh --config  $OhMyPwshConfig | Invoke-Expression
 }
 else {
-    Write-Warning "$OhMyPwshConfig not found, default theme will be applied"
-    oh-my-posh init pwsh | Invoke-Expression
+    Write-Warning 'oh-my-posh command not found'
 }
 
-$AsyncScriptblock = {
-    . $ENV:CHEZMOI_PATH/PSHelpers/Install-VSCodeExtension.ps1
-    Install-VSCodeExtension
+if (Test-Path $env:CHEZMOI_PATH) {
+    $ProfileAsyncScriptBlock = {
+        . "$ENV:CHEZMOI_PATH/PSHelpers/Misc.ps1"
+        . "$ENV:CHEZMOI_PATH/PSHelpers/Install-VSCodeExtension.ps1"
+        Install-VSCodeExtension
+    }
+    if (Import-Module ProfileAsync -PassThru -ErrorAction Ignore) {
+        Import-ProfileAsync $ProfileAsyncScriptBlock
+    }
+    else {
+        . $ProfileAsyncScriptBlock
+    }
 }
-Import-ProfileAsync $AsyncScriptblock
