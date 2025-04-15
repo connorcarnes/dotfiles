@@ -36,6 +36,16 @@
 Write-Host 'Loading profile...' -ForegroundColor Cyan
 Set-PSResourceRepository -Name PSGallery -Trusted
 
+if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    if ($IsLinux -or $IsMacOS) {
+        # .bashrc will install oh-my-posh
+        pwsh -NoProfile -Command "bash -i" -WindowStyle Hidden
+    }
+    if ($IsWindows) {
+        Write-Warning "Update profile.ps1 to install oh-my-posh on Windows"
+    }
+}
+
 if ($IsLinux -or $IsMacOS) {
     $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
     [array]::Reverse($NixProfiles)  # user overrides system
