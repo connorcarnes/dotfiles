@@ -5,19 +5,6 @@
 # -u: exit on unset variables
 set -eu
 
-# echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc
-# if ! ohmyposh="$(command -v oh-my-posh)"; then
-# 	echo "Installing oh-my-posh" >&2
-# 	if command -v curl >/dev/null; then
-#     	curl -s https://ohmyposh.dev/install.sh > /tmp/oh-my-posh-installer.sh
-#     	bash /tmp/oh-my-posh-installer.sh
-#     	rm /tmp/oh-my-posh-installer.sh
-# 	else
-# 		echo "To install oh-my-posh, you must have curl installed." >&2
-# 		exit 1
-# 	fi
-# fi
-
 if ! chezmoi="$(command -v chezmoi)"; then
 	bin_dir="${HOME}/.local/bin"
 	chezmoi="${bin_dir}/chezmoi"
