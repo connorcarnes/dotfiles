@@ -36,16 +36,6 @@
 Write-Host 'Loading profile...' -ForegroundColor Cyan
 Set-PSResourceRepository -Name PSGallery -Trusted
 
-if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
-    if ($IsLinux -or $IsMacOS) {
-        # .bashrc will install oh-my-posh
-        Start-Process nohup 'pwsh -NoProfile -c "bash"'
-    }
-    if ($IsWindows) {
-        Write-Warning "Update profile.ps1 to install oh-my-posh on Windows"
-    }
-}
-
 if ($IsLinux -or $IsMacOS) {
     $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
     [array]::Reverse($NixProfiles)  # user overrides system
@@ -57,6 +47,16 @@ if ($IsLinux -or $IsMacOS) {
     $PATH = $PATH | Select-Object -Unique
     $env:PATH = @($PATH) -ne '' -join ':'
     Remove-Variable PATH, NixProfiles, NixPathLines, Expressions
+}
+
+if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    if ($IsLinux -or $IsMacOS) {
+        # .bashrc will install oh-my-posh
+        Start-Process nohup 'pwsh -NoProfile -c "bash"'
+    }
+    if ($IsWindows) {
+        Write-Warning "Update profile.ps1 to install oh-my-posh on Windows"
+    }
 }
 
 if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
