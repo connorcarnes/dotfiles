@@ -5,7 +5,8 @@
 # -u: exit on unset variables
 set -eu
 
-bash -c "export PATH=$PATH:$HOME/.local/bin"
+path_to_add="${HOME}/.local/bin"
+export PATH="${path_to_add}:${PATH}"
 
 if ! ohmyposh="$(command -v oh-my-posh)"; then
 	echo "Installing oh-my-posh" >&2
