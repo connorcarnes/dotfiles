@@ -5,6 +5,19 @@
 # -u: exit on unset variables
 set -eu
 
+if ! ohmyposh="$(command -v oh-my-posh)"; then
+	bin_dir="${HOME}/.local/bin"
+	ohmyposh="${bin_dir}/oh-my-posh"
+	echo "Installing oh-my-posh to '${ohmyposh}'" >&2
+	if command -v curl >/dev/null; then
+		curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "${bin_dir}"
+	else
+		echo "To install oh-my-posh, you must have curl installed." >&2
+		exit 1
+	fi
+	unset bin_dir
+fi
+
 if ! chezmoi="$(command -v chezmoi)"; then
 	bin_dir="${HOME}/.local/bin"
 	chezmoi="${bin_dir}/chezmoi"
@@ -29,16 +42,3 @@ set -- init --apply --source="${script_dir}"
 echo "Running 'chezmoi $*'" >&2
 # exec: replace current process with chezmoi
 exec "$chezmoi" "$@"
-
-if ! ohmyposh="$(command -v oh-my-posh)"; then
-	bin_dir="${HOME}/.local/bin"
-	ohmyposh="${bin_dir}/oh-my-posh"
-	echo "Installing oh-my-posh to '${ohmyposh}'" >&2
-	if command -v curl >/dev/null; then
-		curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "${bin_dir}"
-	else
-		echo "To install oh-my-posh, you must have curl installed." >&2
-		exit 1
-	fi
-	unset bin_dir
-fi
