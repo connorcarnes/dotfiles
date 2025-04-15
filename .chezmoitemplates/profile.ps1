@@ -39,7 +39,7 @@ Set-PSResourceRepository -Name PSGallery -Trusted
 if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
     if ($IsLinux -or $IsMacOS) {
         # .bashrc will install oh-my-posh
-        pwsh -NoProfile -Command "bash -i"
+        Start-Process nohup 'pwsh -NoProfile -c "bash"'
     }
     if ($IsWindows) {
         Write-Warning "Update profile.ps1 to install oh-my-posh on Windows"
