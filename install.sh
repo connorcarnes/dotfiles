@@ -6,16 +6,13 @@
 set -eu
 
 if ! ohmyposh="$(command -v oh-my-posh)"; then
-	bin_dir="${HOME}/.local/bin"
-	ohmyposh="${bin_dir}/oh-my-posh"
-	echo "Installing oh-my-posh to '${ohmyposh}'" >&2
+	echo "Installing oh-my-posh" >&2
 	if command -v curl >/dev/null; then
-		curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "${bin_dir}"
+		curl -s https://ohmyposh.dev/install.sh | bash -s
 	else
 		echo "To install oh-my-posh, you must have curl installed." >&2
 		exit 1
 	fi
-	unset bin_dir
 fi
 
 if ! chezmoi="$(command -v chezmoi)"; then
