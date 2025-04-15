@@ -1,6 +1,6 @@
 #! /usr/bin/pwsh
 
-$RequiredResources = @{
+$PSResources = @{
     'Microsoft.PowerShell.PSResourceGet'    = @{version = '[0.0.0.1, ]' }
     'Microsoft.WinGet.Configuration'        = @{version = '[0.0.0.1, ]' }
     'Microsoft.PowerShell.SecretManagement' = @{version = '[0.0.0.1, ]' }
@@ -14,20 +14,30 @@ $RequiredResources = @{
     'SecretManagement.Warden'               = @{version = '[0.0.0.1, ]' }
     'ProfileAsync'                          = @{version = '[0.0.0.1, ]' }
 }
-$ToInstall = $RequiredResources.Keys | Where-Object { -not (Get-InstalledPSResource -Name $_ -ErrorAction 'SilentlyContinue') }
-$ToSkip = $RequiredResources.Keys | Where-Object { $ToInstall -notcontains $_ }
-$ToSkip | ForEach-Object {
-    if ($RequiredResources.$_.Reinstall) {
-        Write-Verbose "$_ marked for reinstallation"
+$Commands = @()
+$ToInstall = $PSResources.Keys |
+    Where-Object {
+        -not (Get-InstalledPSResource -Name $_ -ErrorAction 'SilentlyContinue') -or
+        $PSResources[$_].Reinstall -eq $true
     }
-    else {
-        $RequiredResources.Remove($_)
+$ToInstall | ForEach-Object {
+    $Name = $_
+    $Version = $PSResources[$_].version
+    $Reinstall = $PSResources[$_].Reinstall
+    $PreRelease = $PSResources[$_].PreRelease
+    $Command = "Install-PSResource -Name $Name -Version '$Version'"
+    if ($Reinstall) {
+        $Command += ' -Reinstall'
     }
+    if ($PreRelease) {
+        $Command += ' -Prerelease'
+    }
+    $Commands += $Command
 }
-if (-not $ToInstall) {
+if (-not $Commands) {
     Write-Verbose 'No modules to install'
 }
 else {
-    Write-Verbose "Installing modules: $($ToInstall -join ', ')"
-    Install-PSResource -RequiredResource $RequiredResources
+    Write-Verbose "Installing modules: $Commands"
+    pwsh -NoProfile -Command ($Commands -join '; ')
 }
