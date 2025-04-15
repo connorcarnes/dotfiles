@@ -23,12 +23,12 @@ function Install-VSCodeExtension {
         )
     }
 
-    if ($(go version)) {
+    if (Get-Command go -ErrorAction SilentlyContinue) {
         Write-Verbose 'go is installed'
         $ToInstall += @('golang.go')
     }
 
-    if ($(python3 --version)) {
+    if (Get-Command python3 -ErrorAction SilentlyContinue) {
         Write-Verbose 'python3 is installed'
         $ToInstall += @(
             'ms-python.vscode-pylance'
