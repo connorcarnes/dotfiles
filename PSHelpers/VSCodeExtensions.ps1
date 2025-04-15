@@ -1,3 +1,6 @@
+function Install-VSCodeExtension {
+    Write-Verbose 'Installing VSCode extensions'
+}
 # $ChezmoiPath = $(chezmoi source-path)
 # $ToInstall = (Get-Content "$ChezmoiPath/.extensions.json" | ConvertFrom-Json)
 # $Installed = $(code --list-extensions)
