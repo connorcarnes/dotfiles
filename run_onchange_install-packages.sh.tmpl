@@ -1,0 +1,16 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+
+pkgs=(
+    "git"
+    "unzip"
+    "tar"
+    "https://github.com/PowerShell/PowerShell/releases/download/v7.5.0/powershell-7.5.0-1.rh.x86_64.rpm"
+)
+
+[[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
+
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+echo "placeholder"
+{{ end -}}

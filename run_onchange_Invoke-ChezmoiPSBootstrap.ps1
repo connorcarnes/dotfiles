@@ -13,6 +13,8 @@
 #>
 
 function Invoke-ChezmoiPSBootstrap {
+    Get-ChildItem
+    Get-Location
     $PSScriptPath = (Get-Item $MyInvocation.ScriptName).FullName
     $Commands = @()
     $PSResources = @{
@@ -47,7 +49,8 @@ function Invoke-ChezmoiPSBootstrap {
     }
     if (-not $Commands) {
         Write-Verbose 'No modules to install'
-    } else {
+    }
+    else {
         Write-Verbose "Installing modules: $Commands"
         pwsh -NoProfile -Command ($Commands -join '; ')
     }
