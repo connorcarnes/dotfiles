@@ -20,6 +20,7 @@ TF_VERSION="1.6.2"
 TF_URL="https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
 [[  $(printf '%s\n' $files | grep '\.tf$') ]] \
     && curl --silent --location --remote-name "${TF_URL}" \
+    && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && mv terraform /usr/local/bin/ \
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
