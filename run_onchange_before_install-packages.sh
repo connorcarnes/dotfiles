@@ -1,7 +1,5 @@
 #!/bin/bash
 
-touch $CONTAINER_WORKSPACE_FOLDER/test.txt
-
 pkgs=(
     "git"
     "unzip"
