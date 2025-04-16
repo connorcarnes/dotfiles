@@ -13,8 +13,6 @@
 #>
 
 function Invoke-ChezmoiPSBootstrap {
-    Get-ChildItem
-    Get-Location
     $PSScriptPath = (Get-Item $MyInvocation.ScriptName).FullName
     $Commands = @()
     $PSResources = @{
