@@ -1,6 +1,8 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/sh
 
+touch $CONTAINER_WORKSPACE_FOLDER/test.txt
+
 pkgs=(
     "git"
     "unzip"
