@@ -1,5 +1,4 @@
-{{ if eq .chezmoi.os "linux" -}}
-#!/bin/sh
+#!/bin/bash
 
 touch $CONTAINER_WORKSPACE_FOLDER/test.txt
 
@@ -60,8 +59,3 @@ TF_URL="https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VE
 
 # wget --quiet --output-document=- "https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz" | tar --extract --xz --verbose \
 #     && mv "shellcheck-stable/shellcheck" /usr/local/bin/
-
-{{ else if eq .chezmoi.os "darwin" -}}
-#!/bin/sh
-echo "placeholder"
-{{ end -}}
