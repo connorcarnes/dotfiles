@@ -8,6 +8,7 @@ pkgs=(
     "findutils"
     "https://github.com/PowerShell/PowerShell/releases/download/v7.5.0/powershell-7.5.0-1.rh.x86_64.rpm"
     "wget"
+    "procps-ng"
 )
 
 [[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
