@@ -12,6 +12,11 @@ pkgs=(
 
 [[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
 
+if ! mise="$(command -v mise)"; then
+	echo "Installing mise" >&2
+    curl https://mise.run | bash
+fi
+
 files=$(find "$CONTAINER_WORKSPACE_FOLDER" -type f)
 
 TF_VERSION="1.6.2"
