@@ -8,14 +8,18 @@ pkgs=(
     "https://github.com/PowerShell/PowerShell/releases/download/v7.5.0/powershell-7.5.0-1.rh.x86_64.rpm"
     "wget"
     "procps-ng"
+    "dnf-plugins-core"
 )
 
 [[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
 
-if ! mise="$(command -v mise)"; then
-	echo "Installing mise" >&2
-    curl https://mise.run | bash
-fi
+dnf config-manager addrepo --from-repofile=https://mise.jdx.dev/rpm/mise.repo
+dnf install --quiet --assumeyes mise
+
+# if ! mise="$(command -v mise)"; then
+# 	echo "Installing mise" >&2
+#     curl https://mise.run | bash
+# fi
 
 files=$(find "$CONTAINER_WORKSPACE_FOLDER" -type f)
 
