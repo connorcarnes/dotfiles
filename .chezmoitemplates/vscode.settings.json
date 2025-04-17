@@ -10,9 +10,6 @@
   "explorer.decorations.colors": true,
   "explorer.sortOrder": "type",
   "explorer.confirmDelete": false,
-  "workbench.settings.editor": "json",
-  "workbench.tree.indent": 15,
-  "workbench.editor.titleScrollbarSizing": "large",
   "editor.bracketPairColorization.enabled": true,
   "editor.accessibilitySupport": "off",
   "editor.autoClosingQuotes": "never",
@@ -34,6 +31,12 @@
   "editor.semanticTokenColorCustomizations": {
     "[]": {
       "enabled": true
+    },
+    "[Alabaster]": {
+      // "strings": "#448C27", // theme default
+      // "comments": "#AA3731" // theme default
+      "comments": "#448C27",
+      "strings": "#AA3731",
     }
   },
   // zenMode - full screen editing changes
@@ -44,7 +47,14 @@
   //files
   "files.trimTrailingWhitespace": true,
   "files.defaultLanguage": "powershell",
-  "workbench.colorTheme": "Brackets Light Pro Bold",
+  // WORKBENCH
+  // "workbench.colorTheme": "Brackets Light Pro Bold",
+  "workbench.colorTheme": "Alabaster",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.settings.editor": "json",
+  "workbench.tree.indent": 15,
+  "workbench.editor.titleScrollbarSizing": "large",
+  "workbench.startupEditor": "none",
   //TERMINAL
   "terminal.integrated.profiles.windows": {
     "winpwsh": {
@@ -144,7 +154,6 @@
   "files.autoSave": "onFocusChange",
   "editor.formatOnPaste": true,
   "go.toolsManagement.autoUpdate": true,
-  "workbench.startupEditor": "none",
   // Language Settings
   "[python]": {
     "editor.tabSize": 4,
