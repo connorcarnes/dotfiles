@@ -52,6 +52,6 @@ function Install-VSCodeExtension {
     }
 }
 
-if ($env:REMOTE_CONTAINERS -and ($env:TERM_PROGRAM = "vscode")) {
-    Install-VSCodeExtension
-}
+# if ($env:REMOTE_CONTAINERS -and ($env:TERM_PROGRAM = "vscode")) {
+#     Install-VSCodeExtension
+# }
