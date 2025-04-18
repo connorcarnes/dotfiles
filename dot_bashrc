@@ -71,6 +71,6 @@ else
     fi
 fi
 
-[[ $(command -v mise) ]] && eval "$(mise activate bash)"
+[[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
