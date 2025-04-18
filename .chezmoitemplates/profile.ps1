@@ -37,7 +37,7 @@ Write-Host 'Loading profile...' -ForegroundColor Cyan
 Set-PSResourceRepository -Name PSGallery -Trusted
 
 if ($IsLinux -or $IsMacOS) {
-    Write-Verbose "loading linux/macOS path variables"
+    Write-Verbose 'loading linux/macOS path variables'
     $NixProfiles = '/etc/profile', '~/.profile', '~/.bash_profile', '~/.bashrc', '~/.bash_login', '~/.bash_logout'
     [array]::Reverse($NixProfiles)  # user overrides system
     $NixPathLines = Get-Content $NixProfiles -ErrorAction Ignore | Select-String -Pattern '^\s+PATH='
@@ -57,25 +57,29 @@ if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
             Write-Verbose 'Executing: Start-Process nohup pwsh -NoProfile -c bash -i'
             # .bashrc will install oh-my-posh
             Start-Process nohup 'pwsh -NoProfile -c "bash -i"'
-        } else {
+        }
+        else {
             $Content = Get-Content nohup.out
             $InstallComplete = [bool]($Content | Select-String -Pattern '🚀 Installation complete.')
             if ($InstallComplete) {
                 Write-Verbose 'oh-my-posh installed and available on path'
-            } else {
+            }
+            else {
                 Write-Warning 'oh-my-posh installation in progress...'
             }
         }
 
     }
     if ($IsWindows) {
-        Write-Warning "Update profile.ps1 to install oh-my-posh on Windows"
+        Write-Warning 'Update profile.ps1 to install oh-my-posh on Windows'
     }
 }
 
 if (Get-Command chezmoi -ErrorAction SilentlyContinue) {
     Write-Verbose 'chezmoi command found, setting CHEZMOI_PATH'
-    [System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
+    if (-not $env:CHEZMOI_PATH) {
+        [System.Environment]::SetEnvironmentVariable('CHEZMOI_PATH', $(chezmoi source-path))
+    }
 }
 
 # Module Imports
@@ -138,7 +142,7 @@ if (Test-Path $env:CHEZMOI_PATH -ErrorAction Ignore) {
         Import-ProfileAsync $ProfileAsyncScriptBlock
     }
     else {
-        Write-Verbose "ProfileAsync module not found."
+        Write-Verbose 'ProfileAsync module not found.'
         . $ProfileAsyncScriptBlock
     }
 }
