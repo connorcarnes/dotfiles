@@ -70,3 +70,5 @@ else
         echo "Git completion successfully loaded."
     fi
 fi
+
+[[ $(command -v mise) ]] && eval "$(mise activate bash)"
