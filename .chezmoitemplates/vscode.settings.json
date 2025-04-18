@@ -28,19 +28,12 @@
   "editor.fontLigatures": true,
   "editor.fontSize": 15,
   "editor.semanticHighlighting.enabled": true,
-  "editor.semanticTokenColorCustomizations": {
-    "[]": {
-      "enabled": true
-    },
+  "editor.tokenColorCustomizations": {
     "[Alabaster]": {
       // "strings": "#448C27", // theme default
       // "comments": "#AA3731" // theme default
-      // "comments": "#448C27",
-      // "strings": "#AA3731"
-      "rules": {
-        "comments": "#448C27",
-        "strings": "#AA3731"
-      }
+      "comments": "#448C27",
+      "strings": "#AA3731"
     }
   },
   // zenMode - full screen editing changes
