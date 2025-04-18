@@ -19,4 +19,4 @@ dnf install --quiet --assumeyes mise
 # mise requires gpg-agent
 # Amazon Linux 2023 comes with gnupg2-minimal which does not include gpg-agent
 # below command swaps out -minimal for the full gnupg2 package that includes gpg-agent
-dnf swap gnupg2-minimal.x86_64 gnupg2.x86_64
+dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64
