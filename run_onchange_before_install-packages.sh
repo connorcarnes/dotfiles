@@ -13,7 +13,7 @@ pkgs=(
 
 [[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
 
-dnf config-manager addrepo --from-repofile=https://mise.jdx.dev/rpm/mise.repo
+dnf config-manager --add-repo "https://mise.jdx.dev/rpm/mise.repo"
 dnf install --quiet --assumeyes mise
 
 # if ! mise="$(command -v mise)"; then
