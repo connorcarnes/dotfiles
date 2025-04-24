@@ -16,8 +16,13 @@ peacockColor = {{ $peacockColor | quote}}
 command = "code"
 args = ["--wait"]
 
-[diff]
-command= "difft"
+#[diff]
+#command= "difft"
+#args = ["{{`{{ .Destination }}`}}", "{{`{{ .Target }}`}}"]
 #pager = "difft"
 #command = "code"
 #args = ["--wait", "--diff"]
+
+[diff]
+command = "git"
+args = ["difftool", "--no-prompt", "--", "{{`{{ .Destination }}`}}", "{{`{{ .Target }}`}}"]

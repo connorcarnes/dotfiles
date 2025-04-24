@@ -5,7 +5,11 @@
     "*settings.json": "jsonc",
     "*.toml.tmpl": "toml",
     "*.sh.tmpl": "shellscript",
-    "*.ps1.tmpl": "powershell"
+    "*.ps1.tmpl": "powershell",
+    "dot_gitconfig": "ini",
+    "dot_bashrc": "shellscript",
+    "dot_bash_profile": "shellscript",
+    "dot_wslconfig": "ini"
   },
   "breadcrumbs.enabled": false,
   "explorer.confirmDragAndDrop": false,
