@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
 pkgs=(
@@ -20,3 +21,8 @@ dnf install --quiet --assumeyes mise
 # Amazon Linux 2023 comes with gnupg2-minimal which does not include gpg-agent
 # below command swaps out -minimal for the full gnupg2 package that includes gpg-agent
 dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64
+
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+echo "Time to update this script for mac"
+{{ end -}}

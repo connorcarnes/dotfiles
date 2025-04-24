@@ -15,7 +15,7 @@ kernel=C:\\Users\\cc\\wsl2-kernel\\bzImage-5.15.167-WSL2-custom
 
 # Sets additional kernel parameters, in this case enabling older Linux base images such as Centos 6
 #kernelCommandLine = vsyscall=emulate
-kernelCommandLine = vsyscall=emulate systemd=true
+kernelCommandLine = vsyscall=emulate kernelCommandLine=ipv6.disable=1
 
 # Sets amount of swap storage space to 8GB, default is 25% of available RAM
 swap=2GB

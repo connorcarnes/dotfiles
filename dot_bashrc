@@ -74,3 +74,6 @@ fi
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
+
+# todo: make aliases for common commands
+#systemctl list-unit-files --type=service
