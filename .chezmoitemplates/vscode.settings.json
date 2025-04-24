@@ -2,7 +2,10 @@
   "files.associations": {
     "*.tftpl": "terraform",
     "*.ps1xml": "xml",
-    "*settings.json": "jsonc"
+    "*settings.json": "jsonc",
+    "*.toml.tmpl": "toml",
+    "*.sh.tmpl": "shellscript",
+    "*.ps1.tmpl": "powershell"
   },
   "breadcrumbs.enabled": false,
   "explorer.confirmDragAndDrop": false,

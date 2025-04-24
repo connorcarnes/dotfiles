@@ -5,3 +5,10 @@
 	defaultBranch = main
 [core]
 	editor = code
+[alias]
+    # `git log` with patches shown with difftastic.
+    dlog = -c diff.external=difft log --ext-diff
+    # Show the most recent commit with difftastic.
+    dshow = -c diff.external=difft show --ext-diff
+    # `git diff` with difftastic.
+    ddiff = -c diff.external=difft diff
