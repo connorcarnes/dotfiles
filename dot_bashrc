@@ -108,6 +108,12 @@ eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 [[ ! ${BLE_VERSION-} ]] || ble-attach
 
+
+
 # todo: make aliases for common commands
 #systemctl list-unit-files --type=service
 # unset GH_TOKEN && gh auth login --web -h github.com
+
+. "$HOME/.atuin/bin/env"
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"
