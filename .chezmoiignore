@@ -7,3 +7,5 @@ AppData/Local/Microsoft/PowerToys/PowerToys Run
 .config
 {{ end }}
 install.sh
+*.env
+.env*

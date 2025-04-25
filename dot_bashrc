@@ -13,6 +13,16 @@ case $- in
       *) return;;
 esac
 
+# ignore .env files. Related setting in .gitconfig: excludesfile = ~/.gitignore_global
+gitignore_file="$HOME/.gitignore_global"
+required_content=$'*.env\n.env*'
+[[ ! -f "$gitignore_file" || \
+   "$(cat "$gitignore_file" 2>/dev/null)" != \
+   "$required_content" ]] \
+    && echo "$required_content" > "$gitignore_file"
+
+[[ -f ~/.env ]] && source ~/.env
+
 [[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
 
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then

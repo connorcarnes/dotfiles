@@ -32,6 +32,9 @@ mkdir -p "$blesh_dir" && pushd "$blesh_dir"
 git clone --recursive --depth 1 --shallow-submodules "https://github.com/akinomyoga/ble.sh.git"
 make -C ble.sh
 export BLESH_PATH="$blesh_dir/ble.sh/out/ble.sh"
+source "$BLESH_PATH" --noattach
+
+curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
