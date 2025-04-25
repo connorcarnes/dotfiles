@@ -13,6 +13,8 @@ case $- in
       *) return;;
 esac
 
+export PATH=$PATH:$HOME/.local/bin
+
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
     if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
         PATH="$HOME/bin:$PATH"

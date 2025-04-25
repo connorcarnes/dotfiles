@@ -1,7 +1,9 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
-pkgs=(
+os_release="$(cat /etc/os-release)"
+
+dnfpkgs=(
     "git"
     "unzip"
     "tar"
@@ -11,16 +13,36 @@ pkgs=(
     "procps-ng"
     "dnf-plugins-core"
 )
-
-[[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
-
-dnf config-manager --add-repo "https://mise.jdx.dev/rpm/mise.repo"
-dnf install --quiet --assumeyes mise
+[[ $(command -v dnf) ]] \
+    && dnf install --quiet --assumeyes "${dnfpkgs[@]}" \
+    && dnf config-manager --add-repo "https://mise.jdx.dev/rpm/mise.repo" \
+    && dnf install --quiet --assumeyes mise
 
 # mise requires gpg-agent
 # Amazon Linux 2023 comes with gnupg2-minimal which does not include gpg-agent
 # below command swaps out -minimal for the full gnupg2 package that includes gpg-agent
-dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64
+[[ "$os_release" =~ 'PLATFORM_ID="platform:al2023"' ]] \
+    && dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64
+
+aptpkgs=(
+    "gpg"
+    "wget"
+    "curl"
+    "git"
+    "unzip"
+    "tar"
+)
+[[ $(command -v apt) ]] \
+    && apt update --quiet --yes \
+    && apt install --quiet --yes "${aptpkgs[@]}" \
+    && install -dm 755 /etc/apt/keyrings \
+    && wget -qO - https://mise.jdx.dev/gpg-key.pub \
+        | gpg --dearmor \
+        | tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null \
+    && echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
+        | tee /etc/apt/sources.list.d/mise.list \
+    && apt update --quiet --yes \
+    && apt install --quiet --yes mise
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
