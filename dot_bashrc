@@ -87,13 +87,17 @@ fi
 
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
-[[ $(command -v gh) ]] && gh auth status | grep -q 'Logged in to github.com account' \
-    || gh auth login --with-token
-# https://github.com/github/gh-copilot
-gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
-[[ ! $gh_copilot_installed ]] \
-    && gh extension install github/gh-copilot \
-    || eval "$(gh copilot alias -- bash)"
+if [[ $(command -v gh) ]]; then
+    gh auth status | grep -q 'Logged in to github.com account' \
+        || gh auth login --with-token
+
+    # https://github.com/github/gh-copilot
+    gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
+    [[ ! $gh_copilot_installed ]] \
+        && gh extension install github/gh-copilot \
+        || eval "$(gh copilot alias -- bash)"
+fi
+
 # example: gh copilot suggest "Install and configure git lfs"
 # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
 # ghcs and ghce instead of gh copilot suggest and gh copilot explain

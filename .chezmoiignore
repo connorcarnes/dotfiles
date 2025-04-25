@@ -9,3 +9,4 @@ AppData/Local/Microsoft/PowerToys/PowerToys Run
 install.sh
 *.env
 .env*
+nohup.out
