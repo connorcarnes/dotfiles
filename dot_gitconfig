@@ -5,6 +5,7 @@
 	defaultBranch = main
 [core]
 	editor = code
+    excludesfile = ~/.gitignore_global
 [alias]
     # `git log` with patches shown with difftastic.
     dlog = -c diff.external=difft log --ext-diff

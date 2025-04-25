@@ -14,6 +14,18 @@ case $- in
 esac
 
 export PATH=$PATH:$HOME/.local/bin
+# ignore .env files. Related setting in .gitconfig: excludesfile = ~/.gitignore_global
+gitignore_file="$HOME/.gitignore_global"
+required_content=$'*.env\n.env*'
+[[ ! -f "$gitignore_file" || \
+   "$(cat "$gitignore_file" 2>/dev/null)" != \
+   "$required_content" ]] \
+    && echo "$required_content" > "$gitignore_file"
+
+[[ -f ~/.env ]] && source ~/.env
+
+export BLESH_PATH="$HOME/.local/share/blesh/ble.sh/out/ble.sh"
+[[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
 
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
     if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
@@ -75,7 +87,22 @@ fi
 
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
+[[ $(command -v gh) ]] && gh auth status | grep -q 'Logged in to github.com account' \
+    || gh auth login --with-token
+# https://github.com/github/gh-copilot
+gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
+[[ ! $gh_copilot_installed ]] \
+    && gh extension install github/gh-copilot \
+    || eval "$(gh copilot alias -- bash)"
+# example: gh copilot suggest "Install and configure git lfs"
+# example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
+# ghcs and ghce instead of gh copilot suggest and gh copilot explain
+
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
+
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+[[ ! ${BLE_VERSION-} ]] || ble-attach
 
 # todo: make aliases for common commands
 #systemctl list-unit-files --type=service
+# unset GH_TOKEN && gh auth login --web -h github.com
