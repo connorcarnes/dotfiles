@@ -23,6 +23,7 @@ required_content=$'*.env\n.env*'
 
 [[ -f ~/.env ]] && source ~/.env
 
+export BLESH_PATH="$HOME/.local/share/blesh/ble.sh/out/ble.sh"
 [[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
 
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
