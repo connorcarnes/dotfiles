@@ -13,7 +13,10 @@ case $- in
       *) return;;
 esac
 
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
 export PATH=$PATH:$HOME/.local/bin
+
 # ignore .env files. Related setting in .gitconfig: excludesfile = ~/.gitignore_global
 gitignore_file="$HOME/.gitignore_global"
 required_content=$'*.env\n.env*'

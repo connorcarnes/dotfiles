@@ -13,6 +13,7 @@ dnfpkgs=(
     "procps-ng"
     "dnf-plugins-core"
     "make"
+    "glibc-langpack-en"
 )
 [[ $(command -v dnf) ]] \
     && dnf install --quiet --assumeyes "${dnfpkgs[@]}" \
