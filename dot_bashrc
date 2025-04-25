@@ -13,6 +13,8 @@ case $- in
       *) return;;
 esac
 
+[[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
+
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
     if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
         PATH="$HOME/bin:$PATH"
@@ -74,6 +76,12 @@ fi
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
+
+SET THIS UP FOR BASH AND PWSH NEXT
+https://docs.github.com/en/copilot/managing-copilot/configure-personal-settings/configuring-github-copilot-in-the-cli
+
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+[[ ! ${BLE_VERSION-} ]] || ble-attach
 
 # todo: make aliases for common commands
 #systemctl list-unit-files --type=service

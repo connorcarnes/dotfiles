@@ -10,6 +10,7 @@ pkgs=(
     "wget"
     "procps-ng"
     "dnf-plugins-core"
+    "make"
 )
 
 [[  $(command -v dnf) ]] && dnf install --quiet --assumeyes "${pkgs[@]}"
@@ -21,6 +22,16 @@ dnf install --quiet --assumeyes mise
 # Amazon Linux 2023 comes with gnupg2-minimal which does not include gpg-agent
 # below command swaps out -minimal for the full gnupg2 package that includes gpg-agent
 dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64
+
+dnf config-manager --add-repo "https://cli.github.com/packages/rpm/gh-cli.repo"
+dnf install --quiet --assumeyes gh --repo gh-cli
+
+blesh_dir="$HOME/.local/share/blesh"
+# Create dir if it doesn't exist
+mkdir -p "$blesh_dir" && pushd "$blesh_dir"
+git clone --recursive --depth 1 --shallow-submodules "https://github.com/akinomyoga/ble.sh.git"
+make -C ble.sh
+export BLESH_PATH="$blesh_dir/ble.sh/out/ble.sh"
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
