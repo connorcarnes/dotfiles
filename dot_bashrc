@@ -83,9 +83,18 @@ else
     fi
 fi
 
-# [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
-# [[ $(command -v gh) ]] && \
-#     eval "$(gh copilot alias -- bash)"
+[[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
+
+[[ $(command -v gh) ]] && gh auth status | grep -q 'Logged in to github.com account' \
+    || gh auth login --with-token
+# https://github.com/github/gh-copilot
+gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
+[[ ! $gh_copilot_installed ]] \
+    && gh extension install github/gh-copilot \
+    || eval "$(gh copilot alias -- bash)"
+# example: gh copilot suggest "Install and configure git lfs"
+# example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
+# ghcs and ghce instead of gh copilot suggest and gh copilot explain
 
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
@@ -94,3 +103,4 @@ eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
 # todo: make aliases for common commands
 #systemctl list-unit-files --type=service
+# unset GH_TOKEN && gh auth login --web -h github.com
