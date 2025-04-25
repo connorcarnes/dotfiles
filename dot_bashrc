@@ -91,10 +91,8 @@ fi
 
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
-if [[ $(command -v gh) ]]; then
-    gh auth status | grep -q 'Logged in to github.com account' \
-        || gh auth login --with-token
-
+if [[ $(command -v gh) && -n "$GH_TOKEN" ]]; then
+    echo $GH_TOKEN | gh auth login --with-token
     # https://github.com/github/gh-copilot
     gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
     [[ ! $gh_copilot_installed ]] \
@@ -110,8 +108,6 @@ eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 [[ ! ${BLE_VERSION-} ]] || ble-attach
-
-
 
 # todo: make aliases for common commands
 #systemctl list-unit-files --type=service
