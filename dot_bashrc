@@ -12,8 +12,9 @@
 
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
-export BLESH_PATH="$HOME/.local/share/blesh/ble.sh/out/ble.sh"
-[[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
+blesh_path="~/.local/share/blesh/ble.sh"
+[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach
+
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 export PATH=$PATH:$HOME/.local/bin
@@ -104,8 +105,6 @@ fi
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
 . "$HOME/.atuin/bin/env"
-
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 [[ $(command -v atuin) ]] \
     && eval "$(atuin init bash)" \

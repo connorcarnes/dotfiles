@@ -52,17 +52,21 @@ aptpkgs=(
 # dnf config-manager --add-repo "https://cli.github.com/packages/rpm/gh-cli.repo"
 # dnf install --quiet --assumeyes gh --repo gh-cli
 
-blesh_dir="$HOME/.local/share/blesh"
-# Create dir if it doesn't exist
-mkdir -p "$blesh_dir" && pushd "$blesh_dir"
-git clone --recursive --depth 1 --shallow-submodules "https://github.com/akinomyoga/ble.sh.git"
-make -C ble.sh
-export BLESH_PATH="$blesh_dir/ble.sh/out/ble.sh"
-source "$BLESH_PATH" --noattach
+args+=( --recursive )
+args+=( --depth 1 )
+args+=( --shallow-submodules )
+args+=( "https://github.com/akinomyoga/ble.sh.git" )
+git clone "${args[@]}" \
+    && unset args \
+    && make -C ble.sh install PREFIX=~/.local \
+    && source "~/.local/share/blesh/ble.sh" --noattach
 
-curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+# https://docs.atuin.sh/guide/installation/#recommended-installation-approach
+# curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+atuin_installer_url="https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh"
+curl --proto '=https' --tlsv1.2 -LsSf "$atuin_installer_url" | sh
 
 {{ else if eq .chezmoi.os "darwin" -}}
-#!/bin/sh
+#!/bin/bash
 echo "Time to update this script for mac"
 {{ end -}}
