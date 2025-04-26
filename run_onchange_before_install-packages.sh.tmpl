@@ -59,7 +59,7 @@ args+=( "https://github.com/akinomyoga/ble.sh.git" )
 git clone "${args[@]}" \
     && unset args \
     && make -C ble.sh install PREFIX=~/.local \
-    && source "~/.local/share/blesh/ble.sh" --noattach
+    && source "$HOME/.local/share/blesh/ble.sh" --noattach
 
 # https://docs.atuin.sh/guide/installation/#recommended-installation-approach
 # curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
