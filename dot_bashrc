@@ -115,4 +115,10 @@ eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
 . "$HOME/.atuin/bin/env"
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+
+[[ $(command -v atuin) ]] \
+    && eval "$(atuin init bash)" \
+    && atuin login \
+        --username "$ATUIN_USERNAME" \
+        --password "$ATUIN_PW" \
+        --key "$ATUIN_KEY"

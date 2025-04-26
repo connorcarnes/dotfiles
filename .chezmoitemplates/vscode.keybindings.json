@@ -1,0 +1,14 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "ctrl+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  // keybindings to remove
+  // ctrl+j conflicts with ble.sh
+  {
+    "key": "ctrl+j",
+    "command": "-workbench.action.togglePanel"
+  },
+]
