@@ -8,11 +8,12 @@
 # shellcheck source=/dev/null
 
 # If not running interactively, don't do anything.
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[[ $- != *i* ]] && return
 
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+# https://github.com/akinomyoga/ble.sh/discussions/254
+export BLESH_PATH="$HOME/.local/share/blesh/ble.sh/out/ble.sh"
+[[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 export PATH=$PATH:$HOME/.local/bin
@@ -26,9 +27,6 @@ required_content=$'*.env\n.env*'
     && echo "$required_content" > "$gitignore_file"
 
 [[ -f ~/.env ]] && source ~/.env
-
-export BLESH_PATH="$HOME/.local/share/blesh/ble.sh/out/ble.sh"
-[[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
 
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
     if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
@@ -98,22 +96,15 @@ if [[ $(command -v gh) && -n "$GH_TOKEN" ]]; then
     [[ ! $gh_copilot_installed ]] \
         && gh extension install github/gh-copilot \
         || eval "$(gh copilot alias -- bash)"
+    # example: gh copilot suggest "Install and configure git lfs"
+    # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
+    # ghcs and ghce instead of gh copilot suggest and gh copilot explain
 fi
-
-# example: gh copilot suggest "Install and configure git lfs"
-# example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
-# ghcs and ghce instead of gh copilot suggest and gh copilot explain
 
 eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
-# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
-[[ ! ${BLE_VERSION-} ]] || ble-attach
-
-# todo: make aliases for common commands
-#systemctl list-unit-files --type=service
-# unset GH_TOKEN && gh auth login --web -h github.com
-
 . "$HOME/.atuin/bin/env"
+
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 [[ $(command -v atuin) ]] \
@@ -122,3 +113,12 @@ eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
         --username "$ATUIN_USERNAME" \
         --password "$ATUIN_PW" \
         --key "$ATUIN_KEY"
+
+# todo: make aliases for common commands
+#   - systemctl list-unit-files --type=service
+#   - unset GH_TOKEN && gh auth login --web -h github.com
+#   - chezmoi init --apply $GITHUB_USERNAME
+
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+# https://github.com/akinomyoga/ble.sh/discussions/254
+[[ ! ${BLE_VERSION-} ]] || ble-attach
