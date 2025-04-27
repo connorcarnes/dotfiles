@@ -38,15 +38,6 @@ if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; th
     fi
 fi
 
-# if ! ohmyposh="$(command -v oh-my-posh)"; then
-# 	if command -v curl >/dev/null; then
-#         curl -s https://ohmyposh.dev/install.sh | bash -s
-# 	else
-# 		echo "To install oh-my-posh, you must have curl installed." >&2
-# 		exit 1
-# 	fi
-# fi
-
 # Check common locations for git-completion.bash and load the first match
 if type -t __git_complete >/dev/null 2>&1; then
     echo "Git completions are already loaded."
@@ -97,8 +88,6 @@ if [[ $(command -v gh) && -n "$GH_TOKEN" ]]; then
     # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
     # ghcs and ghce instead of gh copilot suggest and gh copilot explain
 fi
-
-# eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
 [[ $(command -v oh-my-posh) ]] \
     && eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"

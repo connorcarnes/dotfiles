@@ -46,17 +46,7 @@ aptpkgs=(
     && apt update --quiet --yes \
     && apt install --quiet --yes mise
 
-
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
-
-# if ! ohmyposh="$(command -v oh-my-posh)"; then
-# 	if command -v curl >/dev/null; then
-#         curl -s https://ohmyposh.dev/install.sh | bash -s
-# 	else
-# 		echo "To install oh-my-posh, you must have curl installed." >&2
-# 		exit 1
-# 	fi
-# fi
 
 [[ ! $(command -v oh-my-posh) ]] \
     && curl -s https://ohmyposh.dev/install.sh | bash -s
