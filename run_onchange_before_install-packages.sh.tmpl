@@ -49,8 +49,17 @@ aptpkgs=(
 
 [[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
 
-# dnf config-manager --add-repo "https://cli.github.com/packages/rpm/gh-cli.repo"
-# dnf install --quiet --assumeyes gh --repo gh-cli
+# if ! ohmyposh="$(command -v oh-my-posh)"; then
+# 	if command -v curl >/dev/null; then
+#         curl -s https://ohmyposh.dev/install.sh | bash -s
+# 	else
+# 		echo "To install oh-my-posh, you must have curl installed." >&2
+# 		exit 1
+# 	fi
+# fi
+
+[[ ! $(command -v oh-my-posh) ]] \
+    && curl -s https://ohmyposh.dev/install.sh | bash -s
 
 args+=( --recursive )
 args+=( --depth 1 )
