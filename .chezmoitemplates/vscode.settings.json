@@ -3,6 +3,7 @@
     "*.tftpl": "terraform",
     "*.ps1xml": "xml",
     "*settings.json": "jsonc",
+    "*keybindings.json": "jsonc",
     "*.toml.tmpl": "toml",
     "*.sh.tmpl": "shellscript",
     "*.ps1.tmpl": "powershell",
@@ -76,7 +77,7 @@
   "terminal.integrated.fontSize": 15,
   "terminal.integrated.fontFamily": "'MesloLGM Nerd Font'",
   "powershell.codeFormatting.preset": "Stroustrup",
-  "powershell.codeFormatting.autoCorrectAliases": true,
+  "powershell.codeFormatting.autoCorrectAliases": false,
   "powershell.developer.featureFlags": [
     "PSReadLine"
   ],
@@ -156,7 +157,7 @@
   //"editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
-  "editor.formatOnPaste": true,
+  "editor.formatOnPaste": false,
   "go.toolsManagement.autoUpdate": true,
   // Language Settings
   "[python]": {

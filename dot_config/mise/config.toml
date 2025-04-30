@@ -1,0 +1,9 @@
+[tools]
+# mise trust && mise install
+node = "latest"
+difftastic = "latest"
+bitwarden = "latest"
+bitwarden-secrets-manager = "latest"
+gh = "latest"
+#terraform = "latest"
+#terraform-docs = "latest"

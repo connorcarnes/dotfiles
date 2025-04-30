@@ -5,6 +5,11 @@
 # -u: exit on unset variables
 set -eu
 
+
+# pkgs="git curl wget"
+# dnf install --quiet --assumeyes $pkgs \
+#     || apt-get install --quiet $pkgs
+
 if ! chezmoi="$(command -v chezmoi)"; then
 	bin_dir="${HOME}/.local/bin"
 	chezmoi="${bin_dir}/chezmoi"
