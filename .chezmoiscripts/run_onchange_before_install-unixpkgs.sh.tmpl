@@ -1,0 +1,81 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+os_release="$(cat /etc/os-release)"
+
+[[ $(command -v dnf) ]] && {
+    dnfpkgs=(
+        "git"
+        "unzip"
+        "tar"
+        "findutils"
+        "https://github.com/PowerShell/PowerShell/releases/download/v7.5.0/powershell-7.5.0-1.rh.x86_64.rpm"
+        "wget"
+        "procps-ng"
+        "dnf-plugins-core"
+        "make"
+        "glibc-langpack-en"
+        "mise"
+    )
+    dnf config-manager --quiet --add-repo "https://mise.jdx.dev/rpm/mise.repo"
+    dnf install --quiet --assumeyes "${dnfpkgs[@]}"
+
+    # mise requires gpg-agent, AL2023 does not include it by default
+    # below command swaps out gnupg2-minimal for the full gnupg2 package that includes gpg-agent
+    [[ "$os_release" =~ 'PLATFORM_ID="platform:al2023"' ]] && {
+        dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64
+    }
+}
+
+[[ $(command -v apt) ]] && {
+    aptpkgs=(
+        "gpg"
+        "wget"
+        "curl"
+        "git"
+        "unzip"
+        "tar"
+    )
+    apt update --quiet --yes
+    apt install --quiet --yes "${aptpkgs[@]}"
+    install -dm 755 /etc/apt/keyrings
+    wget --quiet --output-document=- https://mise.jdx.dev/gpg-key.pub \
+        | gpg --dearmor \
+        | tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null
+    echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
+        | tee /etc/apt/sources.list.d/mise.list
+    apt update --quiet --yes
+    apt install --quiet --yes mise
+}
+
+[[ ! $(command -v oh-my-posh) ]] && {
+    curl --silent https://ohmyposh.dev/install.sh | bash -s > /dev/null
+}
+
+[[ ! ${BLE_VERSION-} ]] && {
+    args+=( --recursive )
+    args+=( --depth 1 )
+    args+=( --shallow-submodules )
+    args+=( --quiet )
+    args+=( "https://github.com/akinomyoga/ble.sh.git" )
+    git clone "${args[@]}" > /dev/null && unset args
+    make --silent --directory=ble.sh install PREFIX=~/.local > /dev/null
+}
+
+[[ ! $(command -v atuin) ]] && {
+    # https://docs.atuin.sh/guide/installation/
+    atuin_installer="https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh"
+    args+=( --proto '=https' )
+    args+=( --tlsv1.2 )
+    args+=( --location )
+    args+=( --silent )
+    args+=( --show-error )
+    args+=(  --fail )
+    args+=( "$atuin_installer" )
+    curl "${args[@]}" | sh > /dev/null && unset args
+}
+
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+echo "Time to update this script for mac"
+{{ end -}}

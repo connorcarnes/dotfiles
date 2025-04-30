@@ -12,7 +12,7 @@
     https://www.chezmoi.io/reference/commands/init/
 #>
 
-function Invoke-ChezmoiPSBootstrap {
+function Install-DefaultPSResources {
     Set-PSResourceRepository -Name PSGallery -Trusted -Confirm:$false
     $PSScriptPath = (Get-Item $MyInvocation.ScriptName).FullName
     $Commands = @()
@@ -55,4 +55,4 @@ function Invoke-ChezmoiPSBootstrap {
     }
 }
 
-Invoke-ChezmoiPSBootstrap
+Install-DefaultPSResources
