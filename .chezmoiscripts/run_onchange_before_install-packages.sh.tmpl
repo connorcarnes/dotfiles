@@ -52,7 +52,7 @@ aptpkgs=(
     && mise install > /dev/null
 
 [[ ! $(command -v oh-my-posh) ]] \
-    && curl -s https://ohmyposh.dev/install.sh | bash -s
+    && curl -s https://ohmyposh.dev/install.sh | bash -s > /dev/null
 
 args+=( --recursive )
 args+=( --depth 1 )
