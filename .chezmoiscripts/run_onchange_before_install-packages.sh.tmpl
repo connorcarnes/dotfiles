@@ -17,7 +17,7 @@ dnfpkgs=(
 )
 [[ $(command -v dnf) ]] \
     && dnf install --quiet --assumeyes "${dnfpkgs[@]}" \
-    && dnf config-manager --add-repo "https://mise.jdx.dev/rpm/mise.repo" \
+    && dnf config-manager --quiet --add-repo "https://mise.jdx.dev/rpm/mise.repo" \
     && dnf install --quiet --assumeyes mise
 
 # mise requires gpg-agent
@@ -55,10 +55,11 @@ aptpkgs=(
 args+=( --recursive )
 args+=( --depth 1 )
 args+=( --shallow-submodules )
+args+=( --quiet )
 args+=( "https://github.com/akinomyoga/ble.sh.git" )
 git clone "${args[@]}" > /dev/null \
     && unset args \
-    && make -C ble.sh install PREFIX=~/.local > /dev/null \
+    && make --silent -C ble.sh install PREFIX=~/.local > /dev/null \
     && source "$HOME/.local/share/blesh/ble.sh" --noattach
 
 # https://docs.atuin.sh/guide/installation/#recommended-installation-approach
