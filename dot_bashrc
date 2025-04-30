@@ -13,7 +13,7 @@
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
 blesh_path="$HOME/.local/share/blesh/ble.sh"
-[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach
+[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach > /dev/null
 
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
@@ -39,10 +39,7 @@ if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; th
 fi
 
 # Check common locations for git-completion.bash and load the first match
-if type -t __git_complete >/dev/null 2>&1; then
-    echo "Git completions are already loaded."
-else
-    echo "Checking for Git completion files..."
+[[ ! $(type -t __git_complete) ]] && {
     locations=(
         "/etc/bash_completion.d/git"
         "/usr/share/bash-completion/completions/git"
@@ -70,14 +67,51 @@ else
         echo "No Git completion found."
         echo "You may want to install Git completions:"
         echo "curl -o ~/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
-    else
-        echo "Git completion successfully loaded."
     fi
-fi
+}
 
-[[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
+# if type -t __git_complete >/dev/null 2>&1; then
+#     echo "Git completions are already loaded."
+# else
+#     echo "Checking for Git completion files..."
+#     locations=(
+#         "/etc/bash_completion.d/git"
+#         "/usr/share/bash-completion/completions/git"
+#         "/usr/local/etc/bash_completion.d/git"
+#         #"/opt/homebrew/etc/bash_completion.d/git"
+#         "$HOME/.git-completion.bash"
+#         "/etc/profile.d/git-completion.bash"
+#     )
+#     completion_found=false
+#     for loc in "${locations[@]}"; do
+#         if [ -f "$loc" ]; then
+#             #echo "Found at: $loc"
+#             source "$loc"
+#             completion_found=true
+#             break
+#         elif [ -f "${loc}-completion.bash" ]; then
+#             completion_file="${loc}-completion.bash"
+#             #echo "Found at: $completion_file"
+#             source "$completion_file"
+#             completion_found=true
+#             break
+#         fi
+#     done
+#     if [ "$completion_found" = false ]; then
+#         echo "No Git completion found."
+#         echo "You may want to install Git completions:"
+#         echo "curl -o ~/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
+#     else
+#         echo "Git completion successfully loaded."
+#     fi
+# fi
 
-if [[ $(command -v gh) && -n "$GH_TOKEN" ]]; then
+[[ $(command -v mise) ]] \
+    && eval "$(mise activate bash)" \
+    && mise trust > /dev/null \
+    && mise install > /dev/null
+
+[[ $(command -v gh) && -n "$GH_TOKEN" ]] && {
     echo $GH_TOKEN | gh auth login --with-token
     # https://github.com/github/gh-copilot
     gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
@@ -87,19 +121,20 @@ if [[ $(command -v gh) && -n "$GH_TOKEN" ]]; then
     # example: gh copilot suggest "Install and configure git lfs"
     # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
     # ghcs and ghce instead of gh copilot suggest and gh copilot explain
-fi
+}
 
 [[ $(command -v oh-my-posh) ]] \
     && eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
-. "$HOME/.atuin/bin/env"
+. "$HOME/.atuin/bin/env" > /dev/null
 
-[[ $(command -v atuin) ]] \
+[[ $(command -v atuin) && -n "$ATUIN_USERNAME" && -n "$ATUIN_PW" && -n "$ATUIN_KEY"]] \
     && eval "$(atuin init bash)" \
     && atuin login \
         --username "$ATUIN_USERNAME" \
         --password "$ATUIN_PW" \
-        --key "$ATUIN_KEY"
+        --key "$ATUIN_KEY" \
+        > /dev/null
 
 # todo: make aliases for common commands
 #   - systemctl list-unit-files --type=service
