@@ -101,7 +101,8 @@ fi
     atuin login \
         --username "$ATUIN_USERNAME" \
         --password "$ATUIN_PW" \
-        --key "$ATUIN_KEY"
+        --key "$ATUIN_KEY" \
+        > /dev/null
     atuin sync > /dev/null
 }
 
