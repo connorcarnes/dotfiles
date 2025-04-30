@@ -46,7 +46,10 @@ aptpkgs=(
     && apt update --quiet --yes \
     && apt install --quiet --yes mise
 
-[[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
+[[ $(command -v mise) ]] \
+    && eval "$(mise activate bash)" \
+    && mise trust > /dev/null \
+    && mise install > /dev/null
 
 [[ ! $(command -v oh-my-posh) ]] \
     && curl -s https://ohmyposh.dev/install.sh | bash -s
@@ -55,15 +58,15 @@ args+=( --recursive )
 args+=( --depth 1 )
 args+=( --shallow-submodules )
 args+=( "https://github.com/akinomyoga/ble.sh.git" )
-git clone "${args[@]}" \
+git clone "${args[@]}" > /dev/null \
     && unset args \
-    && make -C ble.sh install PREFIX=~/.local \
+    && make -C ble.sh install PREFIX=~/.local > /dev/null \
     && source "$HOME/.local/share/blesh/ble.sh" --noattach
 
 # https://docs.atuin.sh/guide/installation/#recommended-installation-approach
 # curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 atuin_installer_url="https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh"
-curl --proto '=https' --tlsv1.2 -LsSf "$atuin_installer_url" | sh
+curl --proto '=https' --tlsv1.2 --location --silent --show-error --fail "$atuin_installer_url" | sh
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
