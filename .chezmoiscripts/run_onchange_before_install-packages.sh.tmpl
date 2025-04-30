@@ -47,9 +47,10 @@ aptpkgs=(
     && apt install --quiet --yes mise
 
 [[ $(command -v mise) ]] \
-    && eval "$(mise activate bash)" \
-    && mise trust > /dev/null \
-    && mise install > /dev/null
+    && eval "$(mise activate bash)" 
+    # \
+    # && mise trust > /dev/null \
+    # && mise install > /dev/null
 
 [[ ! $(command -v oh-my-posh) ]] \
     && curl -s https://ohmyposh.dev/install.sh | bash -s > /dev/null
@@ -66,7 +67,7 @@ git clone "${args[@]}" > /dev/null \
 # https://docs.atuin.sh/guide/installation/#recommended-installation-approach
 # curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 atuin_installer_url="https://github.com/atuinsh/atuin/releases/latest/download/atuin-installer.sh"
-curl --proto '=https' --tlsv1.2 --location --silent --show-error --fail "$atuin_installer_url" | sh
+curl --proto '=https' --tlsv1.2 --location --silent --show-error --fail "$atuin_installer_url" | sh > /dev/null
 
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
