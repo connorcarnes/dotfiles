@@ -47,11 +47,7 @@ aptpkgs=(
     && apt install --quiet --yes mise
 
 [[ $(command -v mise) ]] \
-    && eval "$(mise activate bash)" 
-    
-    # \
-    # && mise trust > /dev/null \
-    # && mise install > /dev/null
+    && eval "$(mise activate bash)"
 
 [[ ! $(command -v oh-my-posh) ]] \
     && curl -s https://ohmyposh.dev/install.sh | bash -s > /dev/null

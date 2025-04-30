@@ -108,15 +108,15 @@ fi
 
 [[ $(command -v mise) ]] \
     && eval "$(mise activate bash)" \
-    && mise trust > /dev/null \
-    && mise install > /dev/null
+    && mise trust --silent --quiet \
+    && mise install --silent --quiet
 
 [[ $(command -v gh) && -n "$GH_TOKEN" ]] && {
-    echo $GH_TOKEN | gh auth login --with-token
+    echo $GH_TOKEN | gh auth login --with-token > /dev/null
     # https://github.com/github/gh-copilot
     gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
     [[ ! $gh_copilot_installed ]] \
-        && gh extension install github/gh-copilot \
+        && gh extension install github/gh-copilot > /dev/null \
         || eval "$(gh copilot alias -- bash)"
     # example: gh copilot suggest "Install and configure git lfs"
     # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
@@ -128,7 +128,7 @@ fi
 
 . "$HOME/.atuin/bin/env" > /dev/null
 
-[[ $(command -v atuin) && -n "$ATUIN_USERNAME" && -n "$ATUIN_PW" && -n "$ATUIN_KEY"]] \
+[[ $(command -v atuin) && -n "$ATUIN_USERNAME" && -n "$ATUIN_PW" && -n "$ATUIN_KEY" ]] \
     && eval "$(atuin init bash)" \
     && atuin login \
         --username "$ATUIN_USERNAME" \

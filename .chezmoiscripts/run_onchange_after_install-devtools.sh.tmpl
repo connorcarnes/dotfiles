@@ -1,8 +1,8 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 [[ $(command -v mise) ]] \
-    && mise trust > /dev/null \
-    && mise install > /dev/null
+    && mise trust --silent --quiet \
+    && mise install --silent --quiet
 {{ else if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 echo "Time to update this script for mac"
