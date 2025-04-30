@@ -13,7 +13,7 @@
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
 blesh_path="$HOME/.local/share/blesh/ble.sh"
-[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach > /dev/null
+[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach
 
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
