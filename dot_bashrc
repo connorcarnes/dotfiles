@@ -128,13 +128,18 @@ fi
 
 . "$HOME/.atuin/bin/env" > /dev/null
 
-[[ $(command -v atuin) && -n "$ATUIN_USERNAME" && -n "$ATUIN_PW" && -n "$ATUIN_KEY" ]] \
-    && eval "$(atuin init bash)" \
-    && atuin login \
+[[ $(command -v atuin) \
+    && -n "$ATUIN_USERNAME" \
+    && -n "$ATUIN_PW" \
+    && -n "$ATUIN_KEY"
+]] && {
+    eval "$(atuin init bash)"
+    atuin login \
         --username "$ATUIN_USERNAME" \
         --password "$ATUIN_PW" \
         --key "$ATUIN_KEY" \
         > /dev/null
+}
 
 # todo: make aliases for common commands
 #   - systemctl list-unit-files --type=service
