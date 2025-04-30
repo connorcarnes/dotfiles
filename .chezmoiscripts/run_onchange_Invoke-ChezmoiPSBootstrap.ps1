@@ -13,6 +13,7 @@
 #>
 
 function Invoke-ChezmoiPSBootstrap {
+    Set-PSResourceRepository -Name PSGallery -Trusted -Confirm:$false
     $PSScriptPath = (Get-Item $MyInvocation.ScriptName).FullName
     $Commands = @()
     $PSResources = @{
