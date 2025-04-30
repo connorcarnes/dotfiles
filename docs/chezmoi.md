@@ -1,4 +1,7 @@
-# [Chezmoi Scripts](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/)
+# [Chezmoi](https://www.chezmoi.io/user-guide/)
+
+
+## [Chezmoi Scripts](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/)
 
 Chezmoi script file prefixes:
 
