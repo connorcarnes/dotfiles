@@ -102,6 +102,7 @@ fi
         --username "$ATUIN_USERNAME" \
         --password "$ATUIN_PW" \
         --key "$ATUIN_KEY"
+    atuin sync > /dev/null
 }
 
 # todo: make aliases for common commands
