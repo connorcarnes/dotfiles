@@ -40,7 +40,7 @@ os_release="$(cat /etc/os-release)"
     )
     pkgs=("${commonpkgs[@]}" "${aptpkgs[@]}")
     apt update --quiet --yes
-    apt install --quiet --yes "${aptpkgs[@]}"
+    apt install --quiet --yes "${aptpkgs[@]}" > /dev/null
     install -dm 755 /etc/apt/keyrings
     wget --quiet --output-document=- https://mise.jdx.dev/gpg-key.pub \
         | gpg --dearmor \
@@ -48,7 +48,12 @@ os_release="$(cat /etc/os-release)"
     echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
         | tee /etc/apt/sources.list.d/mise.list
     apt update --quiet --yes
-    apt install --quiet --yes mise
+    apt install --quiet --yes mise > /dev/null
+    # for pkg in "${aptpkgs[@]}"; do
+    #     [[ ! $(dpkg -l | grep "$pkg") ]] && {
+    #         apt install --quiet --yes "$pkg" > /dev/null
+    #     }
+    # done
 }
 
 [[ ! $(command -v oh-my-posh) ]] && {
