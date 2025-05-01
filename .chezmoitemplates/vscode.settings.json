@@ -7,10 +7,11 @@
     "*.toml.tmpl": "toml",
     "*.sh.tmpl": "shellscript",
     "*.ps1.tmpl": "powershell",
-    "dot_gitconfig": "ini",
-    "dot_bashrc": "shellscript",
-    "dot_bash_profile": "shellscript",
-    "dot_wslconfig": "ini"
+    "*gitconfig": "ini",
+    "*bashrc": "shellscript",
+    "*bash_profile": "shellscript",
+    "*bash_completion": "shellscript",
+    "*wslconfig": "ini"
   },
   "breadcrumbs.enabled": false,
   "explorer.confirmDragAndDrop": false,
@@ -61,21 +62,42 @@
   "workbench.editor.titleScrollbarSizing": "large",
   "workbench.startupEditor": "none",
   //TERMINAL
-  "terminal.integrated.profiles.windows": {
-    "winpwsh": {
-      "path": "C:/Program Files/PowerShell/7/pwsh.exe"
-    }
-  },
-  "terminal.integrated.profiles.linux": {
-    "linpwsh": {
-      "path": "/usr/bin/pwsh"
-    }
-  },
-  "terminal.integrated.defaultProfile.windows": "winpwsh",
-  "terminal.integrated.defaultProfile.linux": "linpwsh",
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
   "terminal.integrated.scrollback": 8000,
   "terminal.integrated.fontSize": 15,
   "terminal.integrated.fontFamily": "'MesloLGM Nerd Font'",
+  // windows
+  "terminal.integrated.defaultProfile.windows": "pwsh",
+  "terminal.integrated.profiles.windows": {
+    "pwsh": {
+      "path": "C:/Program Files/PowerShell/7/pwsh.exe"
+    },
+    "pwshnop": {
+      "path": "C:/Program Files/PowerShell/7/pwsh.exe",
+      "args": ["-NoProfile"]
+    }
+  },
+  // linux
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.linux": {
+    "pwsh": {
+      "path": "/usr/bin/pwsh"
+    },
+    "pwshnop": {
+      "path": "/usr/bin/pwsh",
+      "args": ["-NoProfile"]
+    },
+    "bash": {
+      "path": "/bin/bash"
+    },
+    "bashnop": {
+      "path": "/bin/bash",
+      "args": [
+        "--noprofile",
+        "--norc"
+      ]
+    },
+  },
   "powershell.codeFormatting.preset": "Stroustrup",
   "powershell.codeFormatting.autoCorrectAliases": false,
   "powershell.developer.featureFlags": [
@@ -153,7 +175,6 @@
     "plaintext": false,
     "markdown": false
   },
-  "terminal.integrated.enableMultiLinePasteWarning": "never",
   //"editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
