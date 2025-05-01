@@ -33,22 +33,22 @@ os_release="$(cat /etc/os-release)"
     dnf install --quiet --assumeyes "${dnfpkgs[@]}" > /dev/null
 }
 
-[[ $(command -v apt) ]] && {
+[[ $(command -v apt-get) ]] && {
     aptpkgs=(
         "gpg"
         "gawk"
     )
     pkgs=("${commonpkgs[@]}" "${aptpkgs[@]}")
-    apt update --quiet --yes > /dev/null
-    apt install --quiet --yes "${pkgs[@]}" > /dev/null
+    apt-get update --quiet --yes > /dev/null
+    apt-get install --quiet --yes "${pkgs[@]}" > /dev/null
     install -dm 755 /etc/apt/keyrings
     wget --quiet --output-document=- https://mise.jdx.dev/gpg-key.pub \
         | gpg --dearmor \
         | tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null
     echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
-        | tee /etc/apt/sources.list.d/mise.list
-    apt update --quiet --yes > /dev/null
-    apt install --quiet --yes mise > /dev/null
+        | tee /etc/apt/sources.list.d/mise.list > /dev/null
+    apt-get update --quiet --yes > /dev/null
+    apt-get install --quiet --yes mise > /dev/null
 }
 
 [[ ! $(command -v oh-my-posh) ]] && {
