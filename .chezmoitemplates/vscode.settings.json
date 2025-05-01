@@ -78,7 +78,7 @@
     }
   },
   // linux
-  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.linux": "pwsh",
   "terminal.integrated.profiles.linux": {
     "pwsh": {
       "path": "/usr/bin/pwsh"
@@ -96,7 +96,7 @@
         "--noprofile",
         "--norc"
       ]
-    },
+    }
   },
   "powershell.codeFormatting.preset": "Stroustrup",
   "powershell.codeFormatting.autoCorrectAliases": false,
