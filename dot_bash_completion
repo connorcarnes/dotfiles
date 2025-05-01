@@ -1,0 +1,63 @@
+# ~/.bash_completion
+
+[[ -f /usr/share/bash-completion/bash_completion ]] && {
+    source /usr/share/bash-completion/bash_completion
+}
+
+# Check common locations for git-completion.bash and load the first match
+[[ ! $(type -t __git_complete) ]] && {
+    locations=(
+        "/etc/bash_completion.d/git"
+        "/usr/share/bash-completion/completions/git"
+        "/usr/local/etc/bash_completion.d/git"
+        #"/opt/homebrew/etc/bash_completion.d/git"
+        "$HOME/.git-completion.bash"
+        "/etc/profile.d/git-completion.bash"
+    )
+    completion_found=false
+    for loc in "${locations[@]}"; do
+        if [ -f "$loc" ]; then
+            #echo "Found at: $loc"
+            source "$loc"
+            completion_found=true
+            break
+        elif [ -f "${loc}-completion.bash" ]; then
+            completion_file="${loc}-completion.bash"
+            #echo "Found at: $completion_file"
+            source "$completion_file"
+            completion_found=true
+            break
+        fi
+    done
+    if [ "$completion_found" = false ]; then
+        echo "No Git completion found."
+        echo "You may want to install Git completions:"
+        echo "curl -o ~/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
+    fi
+}
+
+base_dir="$HOME/.local/share/bash-completion/completions"
+mkdir -p "${base_dir}"
+
+# https://docs.atuin.sh/reference/gen-completions/
+[[ $(command -v atuin) ]] && {
+    completion_file="${base_dir}/atuin.bash"
+    [[ ! -f "${completion_file}" ]] && {
+        atuin gen-completions --shell bash --out-dir "${base_dir}"
+    }
+    source "${completion_file}"
+}
+
+# https://mise.jdx.dev/cli/completion.html
+[[ $(command -v mise) ]] && {
+    completion_file="${base_dir}/mise.bash"
+    [[ ! -f "${completion_file}" ]] && {
+        #mise completion bash --include-bash-completion-lib > "${completion_file}"
+        mise completion bash > "${completion_file}"
+    }
+    source "${completion_file}"
+}
+
+# todo
+# https://github.com/akinomyoga/ble.sh/wiki/Manual-%C2%A77-Completion#7-completion
+# https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-completion.html#cli-command-completion-linux

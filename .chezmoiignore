@@ -1,6 +1,7 @@
 {{ if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") }}
 AppData
 Documents
+.wslconfig
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
 AppData/Local/Microsoft/PowerToys/PowerToys Run

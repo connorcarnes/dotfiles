@@ -1,6 +1,15 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
+commonpkgs=(
+    "bash-completion"
+    "git"
+    "unzip"
+    "tar"
+    "wget"
+    "curl"
+)
+
 os_release="$(cat /etc/os-release)"
 
 [[ $(command -v dnf) ]] && {
@@ -12,17 +21,14 @@ os_release="$(cat /etc/os-release)"
         dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64 > /dev/null
     }
     dnfpkgs=(
-        "git"
-        "unzip"
-        "tar"
         "findutils"
         "https://github.com/PowerShell/PowerShell/releases/download/v7.5.0/powershell-7.5.0-1.rh.x86_64.rpm"
-        "wget"
         "procps-ng"
         "make"
         "glibc-langpack-en"
         "mise"
     )
+    pkgs=("${commonpkgs[@]}" "${dnfpkgs[@]}")
     dnf config-manager --quiet --add-repo "https://mise.jdx.dev/rpm/mise.repo" > /dev/null
     dnf install --quiet --assumeyes "${dnfpkgs[@]}" > /dev/null
 }
@@ -30,12 +36,8 @@ os_release="$(cat /etc/os-release)"
 [[ $(command -v apt) ]] && {
     aptpkgs=(
         "gpg"
-        "wget"
-        "curl"
-        "git"
-        "unzip"
-        "tar"
     )
+    pkgs=("${commonpkgs[@]}" "${aptpkgs[@]}")
     apt update --quiet --yes
     apt install --quiet --yes "${aptpkgs[@]}"
     install -dm 755 /etc/apt/keyrings
