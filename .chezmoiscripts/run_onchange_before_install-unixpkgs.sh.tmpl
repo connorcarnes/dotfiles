@@ -36,6 +36,7 @@ os_release="$(cat /etc/os-release)"
 [[ $(command -v apt) ]] && {
     aptpkgs=(
         "gpg"
+        "gawk"
     )
     pkgs=("${commonpkgs[@]}" "${aptpkgs[@]}")
     apt update --quiet --yes
@@ -54,7 +55,8 @@ os_release="$(cat /etc/os-release)"
     curl --silent https://ohmyposh.dev/install.sh | bash -s > /dev/null
 }
 
-[[ ! ${BLE_VERSION-} ]] && {
+blesh_path="$HOME/.local/share/blesh/ble.sh"
+[[ ! -e "$blesh_path" ]] && {
     args+=( --recursive )
     args+=( --depth 1 )
     args+=( --shallow-submodules )
