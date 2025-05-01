@@ -48,7 +48,7 @@ os_release="$(cat /etc/os-release)"
     echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
         | tee /etc/apt/sources.list.d/mise.list
     apt update --quiet --yes
-    apt install --quiet --yes mise > /dev/null
+    apt install --quiet --yes mise || true
     # for pkg in "${aptpkgs[@]}"; do
     #     [[ ! $(dpkg -l | grep "$pkg") ]] && {
     #         apt install --quiet --yes "$pkg" > /dev/null
