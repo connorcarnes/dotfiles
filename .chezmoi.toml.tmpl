@@ -16,13 +16,7 @@ peacockColor = {{ $peacockColor | quote}}
 command = "code"
 args = ["--wait"]
 
-#[diff]
-#command= "difft"
-#args = ["{{`{{ .Destination }}`}}", "{{`{{ .Target }}`}}"]
-#pager = "difft"
-#command = "code"
-#args = ["--wait", "--diff"]
-
-[diff]
-command = "git"
-args = ["difftool", "--no-prompt", "--", "{{`{{ .Destination }}`}}", "{{`{{ .Target }}`}}"]
+# https://github.com/twpayne/chezmoi/issues/3523
+# [diff]
+# command = "git"
+# args = ["difftool", "--no-prompt", "--", "{{`{{ .Destination }}`}}", "{{`{{ .Target }}`}}"]

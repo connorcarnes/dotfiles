@@ -8,12 +8,17 @@
 # shellcheck source=/dev/null
 
 # If not running interactively, don't do anything.
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[[ $- != *i* ]] && return
 
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+# https://github.com/akinomyoga/ble.sh/discussions/254
+blesh_path="$HOME/.local/share/blesh/ble.sh"
+[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach
+
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
 export PATH=$PATH:$HOME/.local/bin
+
 # ignore .env files. Related setting in .gitconfig: excludesfile = ~/.gitignore_global
 gitignore_file="$HOME/.gitignore_global"
 required_content=$'*.env\n.env*'
@@ -24,9 +29,6 @@ required_content=$'*.env\n.env*'
 
 [[ -f ~/.env ]] && source ~/.env
 
-export BLESH_PATH="$HOME/.local/share/blesh/ble.sh/out/ble.sh"
-[[ -n "${BLESH_PATH-}" && -f "$BLESH_PATH" ]] && source "$BLESH_PATH" --noattach
-
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
     if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
         PATH="$HOME/bin:$PATH"
@@ -36,81 +38,54 @@ if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; th
     fi
 fi
 
-if ! ohmyposh="$(command -v oh-my-posh)"; then
-	echo "Installing oh-my-posh" >&2
-	if command -v curl >/dev/null; then
-        curl -s https://ohmyposh.dev/install.sh | bash -s
-    	# curl -s https://ohmyposh.dev/install.sh > /tmp/oh-my-posh-installer.sh
-    	# bash /tmp/oh-my-posh-installer.sh
-    	# rm /tmp/oh-my-posh-installer.sh
-	else
-		echo "To install oh-my-posh, you must have curl installed." >&2
-		exit 1
-	fi
-fi
+[[ $(command -v mise) ]] && {
+    eval "$(mise activate bash)"
+    mise trust --silent --quiet
+    mise install --silent --quiet
+}
 
-# Check common locations for git-completion.bash and load the first match
-if type -t __git_complete >/dev/null 2>&1; then
-    echo "Git completions are already loaded."
-else
-    echo "Checking for Git completion files..."
-    locations=(
-        "/etc/bash_completion.d/git"
-        "/usr/share/bash-completion/completions/git"
-        "/usr/local/etc/bash_completion.d/git"
-        #"/opt/homebrew/etc/bash_completion.d/git"
-        "$HOME/.git-completion.bash"
-        "/etc/profile.d/git-completion.bash"
-    )
-    completion_found=false
-    for loc in "${locations[@]}"; do
-        if [ -f "$loc" ]; then
-            #echo "Found at: $loc"
-            source "$loc"
-            completion_found=true
-            break
-        elif [ -f "${loc}-completion.bash" ]; then
-            completion_file="${loc}-completion.bash"
-            #echo "Found at: $completion_file"
-            source "$completion_file"
-            completion_found=true
-            break
-        fi
-    done
-    if [ "$completion_found" = false ]; then
-        echo "No Git completion found."
-        echo "You may want to install Git completions:"
-        echo "curl -o ~/.git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
-    else
-        echo "Git completion successfully loaded."
-    fi
-fi
-
-[[ $(command -v mise) ]] && eval "$(mise activate bash)" && mise trust && mise install
-
-if [[ $(command -v gh) && -n "$GH_TOKEN" ]]; then
-    echo $GH_TOKEN | gh auth login --with-token
+[[ $(command -v gh) && -n "$GH_TOKEN" ]] && {
+    echo $GH_TOKEN | gh auth login --with-token > /dev/null
     # https://github.com/github/gh-copilot
     gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
     [[ ! $gh_copilot_installed ]] \
-        && gh extension install github/gh-copilot \
+        && gh extension install github/gh-copilot > /dev/null \
         || eval "$(gh copilot alias -- bash)"
-fi
+    # example: gh copilot suggest "Install and configure git lfs"
+    # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
+    # ghcs and ghce instead of gh copilot suggest and gh copilot explain
+}
 
-# example: gh copilot suggest "Install and configure git lfs"
-# example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
-# ghcs and ghce instead of gh copilot suggest and gh copilot explain
+[[ $(command -v oh-my-posh) ]] \
+    && eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
-eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
+. "$HOME/.atuin/bin/env" > /dev/null
 
-# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
-[[ ! ${BLE_VERSION-} ]] || ble-attach
+[[ $(command -v atuin) \
+    && -n "$ATUIN_USERNAME" \
+    && -n "$ATUIN_PW" \
+    && -n "$ATUIN_KEY"
+]] && {
+    eval "$(atuin init bash)"
+    atuin login \
+        --username "$ATUIN_USERNAME" \
+        --password "$ATUIN_PW" \
+        --key "$ATUIN_KEY" \
+        > /dev/null
+    atuin sync
+}
 
 # todo: make aliases for common commands
+<<<<<<< HEAD
 #systemctl list-unit-files --type=service
 # chezmoi init --apply sociotechnodev
 # unset GH_TOKEN && gh auth login --web -h github.com
+=======
+#   - systemctl list-unit-files --type=service
+#   - unset GH_TOKEN && gh auth login --web -h github.com
+#   - chezmoi init --apply $GITHUB_USERNAME
+>>>>>>> 1a7ee9aba95d96a1b122ec71600f4b593da12637
 
-. "$HOME/.atuin/bin/env"
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+# https://github.com/akinomyoga/ble.sh/discussions/254
+[[ ! ${BLE_VERSION-} ]] || ble-attach

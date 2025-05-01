@@ -1,5 +1,7 @@
 # PowerToys Config File Paths
 
+If there's a PowerToys module I like I'll configure it through the UI and have chezmoi manage the relevant file(s).
+
 ## Root settings.json
 
 `settings.json` in root of this folder goes in `%HomePath%\AppData\Local\Microsoft\PowerToys`.
