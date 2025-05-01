@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p "$(dirname {{ joinPath .chezmoi.commandDir ".vscode/settings.json" | quote }})"
+echo '{{ dict "peacock.color" .peacockColor "peacock.remoteColor" .peacockColor | toJson}}' > {{ joinPath .chezmoi.commandDir ".vscode/settings.json" | quote }}
