@@ -39,24 +39,18 @@ os_release="$(cat /etc/os-release)"
         "gawk"
     )
     pkgs=("${commonpkgs[@]}" "${aptpkgs[@]}")
-    apt update --quiet --yes
-    apt install --quiet --yes "${aptpkgs[@]}"
+    apt update --quiet --yes > /dev/null
+    apt install --quiet --yes "${pkgs[@]}" > /dev/null
     install -dm 755 /etc/apt/keyrings
     wget --quiet --output-document=- https://mise.jdx.dev/gpg-key.pub \
         | gpg --dearmor \
         | tee /etc/apt/keyrings/mise-archive-keyring.gpg 1> /dev/null
     echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
         | tee /etc/apt/sources.list.d/mise.list
-    apt update --quiet --yes
-    apt install --quiet --yes mise
-    # for pkg in "${aptpkgs[@]}"; do
-    #     [[ ! $(dpkg -l | grep "$pkg") ]] && {
-    #         apt install --quiet --yes "$pkg" > /dev/null
-    #     }
-    # done
+    apt update --quiet --yes > /dev/null
+    apt install --quiet --yes mise > /dev/null
 }
 
-echo "does it exit?"
 [[ ! $(command -v oh-my-posh) ]] && {
     curl --silent https://ohmyposh.dev/install.sh | bash -s > /dev/null
 }
