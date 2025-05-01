@@ -108,6 +108,7 @@ eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 
 # todo: make aliases for common commands
 #systemctl list-unit-files --type=service
+# chezmoi init --apply sociotechnodev
 # unset GH_TOKEN && gh auth login --web -h github.com
 
 . "$HOME/.atuin/bin/env"
