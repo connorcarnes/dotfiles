@@ -1,10 +1,12 @@
-# Setting the sourceDir configuration variable to .chezmoi.sourceDir is required because Codespaces clones your dotfiles repo to a different one to chezmoi's default.
-sourceDir = {{ .chezmoi.sourceDir | quote }}
 {{- $peacockColor := "#8465f6" -}}
 {{- $devcontainer := (env "REMOTE_CONTAINERS") -}}
 {{ if not $devcontainer }}
 {{ $devcontainer = "false" }}
 {{- end -}}
+# Setting the sourceDir configuration variable to .chezmoi.sourceDir is required because
+# Codespaces clones your dotfiles repo to a different one to chezmoi's default
+# https://www.chezmoi.io/user-guide/machines/containers-and-vms/
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
 devcontainer = {{ $devcontainer | quote }}
