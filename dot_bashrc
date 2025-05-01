@@ -76,9 +76,15 @@ fi
 }
 
 # todo: make aliases for common commands
+<<<<<<< HEAD
+#systemctl list-unit-files --type=service
+# chezmoi init --apply sociotechnodev
+# unset GH_TOKEN && gh auth login --web -h github.com
+=======
 #   - systemctl list-unit-files --type=service
 #   - unset GH_TOKEN && gh auth login --web -h github.com
 #   - chezmoi init --apply $GITHUB_USERNAME
+>>>>>>> 1a7ee9aba95d96a1b122ec71600f4b593da12637
 
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
