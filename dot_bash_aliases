@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# todo: make aliases for common commands
+
+# systemctl list-unit-files --type=service
+# chezmoi init --apply sociotechnodev
+# unset GH_TOKEN && gh auth login --web -h github.com
+#   - systemctl list-unit-files --type=service
+#   - unset GH_TOKEN && gh auth login --web -h github.com
+#   - chezmoi init --apply $GITHUB_USERNAME
+
+# default fields: timestamp, hostname, proccess/service name, message
+# journalctl --follow --priority=info
+# journalctl --priority=info --lines=30 --no-pager
+# journalctl --priority=info --lines=30 --reverse
+# https://man7.org/linux/man-pages/man7/systemd.time.7.html#PARSING_TIME_SPANS
+# "1 minute ago", "1 hour ago", "1 day ago", "1 year ago"
+# journalctl --priority=info --since="1 minute ago"
+# journalctl --follow --priority=info --output=json-pretty
