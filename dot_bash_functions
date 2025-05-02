@@ -35,3 +35,7 @@ function df::glog() {
     # Column 3: %s - commit message
     git log --pretty='format:%C(auto)%h %<(14)%ar %s' --max-count=5
 }
+
+[[ $(command -v df::log) ]] && {
+    df::log "bash_functions sourced"
+}

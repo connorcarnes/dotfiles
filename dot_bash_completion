@@ -61,3 +61,7 @@ mkdir -p "${base_dir}"
 # todo
 # https://github.com/akinomyoga/ble.sh/wiki/Manual-%C2%A77-Completion#7-completion
 # https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-completion.html#cli-command-completion-linux
+
+[[ $(command -v df::log) ]] && {
+    df::log "bash_completion sourced"
+}

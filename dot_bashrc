@@ -14,24 +14,28 @@
 [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
 [[ -f ~/.bash_completion ]] && source ~/.bash_completion
 
-# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
-# https://github.com/akinomyoga/ble.sh/discussions/254
-blesh_path="$HOME/.local/share/blesh/ble.sh"
-[[ -e "$blesh_path" ]] && source "$blesh_path" --noattach
-
 export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 export PATH=$PATH:$HOME/.local/bin
+[[ -f ~/.env ]] && source ~/.env
+
+# https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
+# https://github.com/akinomyoga/ble.sh/discussions/254
+blesh_path="$HOME/.local/share/blesh/ble.sh"
+[[ -e "$blesh_path" ]] && {
+    source "$blesh_path" --noattach
+    df::log "ble.sh sourced"
+}
 
 # ignore .env files. Related setting in .gitconfig: excludesfile = ~/.gitignore_global
 gitignore_file="$HOME/.gitignore_global"
 required_content=$'*.env\n.env*'
 [[ ! -f "$gitignore_file" || \
-   "$(cat "$gitignore_file" 2>/dev/null)" != \
-   "$required_content" ]] \
-    && echo "$required_content" > "$gitignore_file"
-
-[[ -f ~/.env ]] && source ~/.env
+    "$(cat "$gitignore_file" 2>/dev/null)" != \
+    "$required_content" ]] && {
+        echo "$required_content" > "$gitignore_file"
+        df::log "$HOME/.gitignore_global updated"
+    }
 
 if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; then
     if [[ ":$PATH:" != *":$HOME/bin:"* ]]; then
@@ -43,42 +47,50 @@ if [[ "$TERM_PROGRAM" == "vscode" ]] && [[ "$REMOTE_CONTAINERS" == "true" ]]; th
 fi
 
 [[ $(command -v mise) ]] && {
+    df::log "configuring mise"
     eval "$(mise activate bash)"
     mise trust --silent --quiet
     mise install --silent --quiet
 }
 
+# https://github.com/github/gh-copilot
+# example: gh copilot suggest "Install and configure git lfs"
+# example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
+# ghcs and ghce instead of gh copilot suggest and gh copilot explain
 [[ $(command -v gh) && -n "$GH_TOKEN" ]] && {
+    df::log "configuring gh"
     echo $GH_TOKEN | gh auth login --with-token > /dev/null
-    # https://github.com/github/gh-copilot
     gh_copilot_installed=$(gh extension list | grep 'github/gh-copilot')
-    [[ ! $gh_copilot_installed ]] \
-        && gh extension install github/gh-copilot > /dev/null \
-        || eval "$(gh copilot alias -- bash)"
-    # example: gh copilot suggest "Install and configure git lfs"
-    # example: gh copilot explain 'git lfs migrate import --everything --include="*.gz,*.png,*.jar"'
-    # ghcs and ghce instead of gh copilot suggest and gh copilot explain
+    [[ ! $gh_copilot_installed ]] && {
+        df::log "configuring gh-copilot"
+        gh extension install github/gh-copilot > /dev/null
+        eval "$(gh copilot alias -- bash)"
+    }
 }
 
-[[ $(command -v oh-my-posh) ]] \
-    && eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
+[[ $(command -v oh-my-posh) ]] && {
+    df::log "configuring oh-my-posh"
+    eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
+}
 
-. "$HOME/.atuin/bin/env" > /dev/null
+# . "$HOME/.atuin/bin/env" > /dev/null
 
-[[ $(command -v atuin) \
-    && -n "$ATUIN_USERNAME" \
-    && -n "$ATUIN_PW" \
-    && -n "$ATUIN_KEY"
-]] && {
-    eval "$(atuin init bash)"
-    atuin login \
-        --username "$ATUIN_USERNAME" \
-        --password "$ATUIN_PW" \
-        --key "$ATUIN_KEY" \
-        > /dev/null
-    atuin sync
+[[ $(command -v atuin) ]] && {
+    df::log "configuring atuin"
+    source "$HOME/.atuin/bin/env" > /dev/null
+    [[ -n "$ATUIN_USERNAME" && -n "$ATUIN_PW" && -n "$ATUIN_KEY" ]] && {
+        eval "$(atuin init bash)"
+        atuin login \
+            --username "$ATUIN_USERNAME" \
+            --password "$ATUIN_PW" \
+            --key "$ATUIN_KEY" \
+            > /dev/null
+        atuin sync
+    }
 }
 
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
 [[ ! ${BLE_VERSION-} ]] || ble-attach
+
+df::log ".bashrc end"

@@ -17,3 +17,7 @@
 # "1 minute ago", "1 hour ago", "1 day ago", "1 year ago"
 # journalctl --priority=info --since="1 minute ago"
 # journalctl --follow --priority=info --output=json-pretty
+
+[[ $(command -v df::log) ]] && {
+    df::log "bash_aliases sourced"
+}
