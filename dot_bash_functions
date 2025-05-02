@@ -18,15 +18,18 @@ function df::log() {
     local priority="${2:-user.info}"
     local verbose_preference="${3:-$DF_VERBOSE_PREFERENCE}"
 
-    local source=$(basename "$0")
-    local tag="${source}"
-
+    # Get source filename of function or script, then get basename
+    local source_file="${BASH_SOURCE[1]:-$0}"
+    local source_name=$(basename "$source_file")
+    # Get name of calling function or default to "script"
+    local calling_function="${FUNCNAME[1]:-script}"
+    local tag="df_log:${calling_function}:${source_name}"
     local logger_cmd=(logger -p "$priority" -t "$tag")
-
     # if verbose, add -s option to also log to stderr
     [[ "$verbose_preference" == "verbose" ]] && logger_cmd+=(-s)
 
-    "${logger_cmd[@]}" "$message"
+    local formatted_message="[${calling_function}@${source_name}] $message"
+    "${logger_cmd[@]}" "$formatted_message"
 }
 
 function df::glog() {
