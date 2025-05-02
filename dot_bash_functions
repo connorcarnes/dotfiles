@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# https://man7.org/linux/man-pages/man3/syslog.3.html
+# https://man7.org/linux/man-pages/man1/logger.1.html
+
+export DF_VERBOSE_PREFERENCE="silent"
+
+# Toggle verbosity
+function df::verbose() {
+  export DF_VERBOSE_PREFERENCE="verbose"
+}
+function df::quiet() {
+  export DF_VERBOSE_PREFERENCE="silent"
+}
+
+function df::log() {
+    local message="$1"
+    local priority="${2:-user.info}"
+    local verbose_preference="${3:-$DF_VERBOSE_PREFERENCE}"
+
+    local source=$(basename "$0")
+    local tag="${source}"
+
+    local logger_cmd=(logger -p "$priority" -t "$tag")
+
+    # if verbose, add -s option to also log to stderr
+    [[ "$verbose_preference" == "verbose" ]] && logger_cmd+=(-s)
+
+    "${logger_cmd[@]}" "$message"
+}
+
+# default fields: timestamp, hostname, proccess/service name, message
+# journalctl --follow --priority=info
+# journalctl --priority=info --lines=30 --no-pager
+# journalctl --priority=info --lines=30 --reverse
+# https://man7.org/linux/man-pages/man7/systemd.time.7.html#PARSING_TIME_SPANS
+# "1 minute ago", "1 hour ago", "1 day ago", "1 year ago"
+# journalctl --priority=info --since="1 minute ago"
+# journalctl --follow --priority=info --output=json-pretty
