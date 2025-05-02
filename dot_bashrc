@@ -10,6 +10,10 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
+[[ -f ~/.bash_functions ]] && source ~/.bash_functions
+[[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
+[[ -f ~/.bash_completion ]] && source ~/.bash_completion
+
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
 blesh_path="$HOME/.local/share/blesh/ble.sh"
