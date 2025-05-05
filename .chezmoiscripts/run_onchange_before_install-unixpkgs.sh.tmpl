@@ -62,7 +62,8 @@ blesh_path="$HOME/.local/share/blesh/ble.sh"
     args+=( --shallow-submodules )
     args+=( --quiet )
     args+=( "https://github.com/akinomyoga/ble.sh.git" )
-    git clone "${args[@]}" > /dev/null && unset args
+    git clone "${args[@]}" > /dev/null
+    unset args
     make --silent --directory=ble.sh install PREFIX=~/.local > /dev/null
 }
 
@@ -76,7 +77,8 @@ blesh_path="$HOME/.local/share/blesh/ble.sh"
     args+=( --show-error )
     args+=(  --fail )
     args+=( "$atuin_installer" )
-    curl "${args[@]}" | sh > /dev/null && unset args
+    curl "${args[@]}" | sh
+    unset args
 }
 
 {{ else if eq .chezmoi.os "darwin" -}}
