@@ -17,8 +17,11 @@ os_release="$(cat /etc/os-release)"
     [[ "$os_release" =~ 'PLATFORM_ID="platform:al2023"' ]] && {
         dnf install --quiet --assumeyes dnf-plugins-core > /dev/null
         # mise requires gpg-agent, AL2023 does not include it by default
-        # below command swaps out gnupg2-minimal for the full gnupg2 package that includes gpg-agent
+        # swap gnupg2-minimal for the full gnupg2 package that includes gpg-agent
         dnf swap --quiet --assumeyes gnupg2-minimal.x86_64 gnupg2.x86_64 > /dev/null
+
+        # swap curl-minimal for the full curl package to avoid dnf conflict
+        dnf swap --quiet --assumeyes curl-minimal.x86_64 curl.x86_64 > /dev/null
     }
     dnfpkgs=(
         "findutils"
