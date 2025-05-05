@@ -22,6 +22,18 @@ os_release="$(cat /etc/os-release)"
 
         # swap curl-minimal for the full curl package to avoid dnf conflict
         dnf swap --quiet --assumeyes curl-minimal.x86_64 curl.x86_64 > /dev/null
+
+        # default al2023 installs out of date bash-completion
+        dnf install --quiet --assumeyes xz > /dev/null
+        bc_ver="2.16.0"
+        bc_url="https://github.com/scop/bash-completion/releases/download/${bc_ver}/bash-completion-${bc_ver}.tar.xz"
+        bc_dir="bash-completion-${bc_ver}"
+        wget "${bc_url}"
+        tar xf bash-completion-${bc_ver}.tar.xz
+        cd bash-completion-${bc_ver}
+        ./configure # > /dev/null
+        make # > /dev/null
+        make install # > /dev/null
     }
     dnfpkgs=(
         "findutils"

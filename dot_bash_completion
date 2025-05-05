@@ -1,8 +1,14 @@
 # ~/.bash_completion
 
-[[ -f /usr/share/bash-completion/bash_completion ]] && {
-    source /usr/share/bash-completion/bash_completion
+# bash-completion usually installed in /usr/share/bash-completion/bash_completion
+# using /usr/local/share/bash-completion/bash_completion below because bash-completion
+# is installed from source in .chezmoiscripts/run_onchange_before_install-unixpkgs.sh.tmpl
+[[ -f /usr/local/share/bash-completion/bash_completion ]] && {
+    source /usr/local/share/bash-completion/bash_completion
 }
+# [[ -f /usr/share/bash-completion/bash_completion ]] && {
+#     source /usr/share/bash-completion/bash_completion
+# }
 
 # Check common locations for git-completion.bash and load the first match
 [[ ! $(type -t __git_complete) ]] && {
@@ -49,14 +55,13 @@ mkdir -p "${base_dir}"
 }
 
 # https://mise.jdx.dev/cli/completion.html
-# [[ $(command -v mise) ]] && {
-#     completion_file="${base_dir}/mise.bash"
-#     [[ ! -f "${completion_file}" ]] && {
-#         mise completion bash --include-bash-completion-lib > "${completion_file}"
-#         #mise completion bash > "${completion_file}"
-#     }
-#     source "${completion_file}"
-# }
+[[ $(command -v mise) ]] && {
+    completion_file="${base_dir}/mise.bash"
+    [[ ! -f "${completion_file}" ]] && {
+        mise completion bash > "${completion_file}"
+    }
+    source "${completion_file}"
+}
 
 # todo
 # https://github.com/akinomyoga/ble.sh/wiki/Manual-%C2%A77-Completion#7-completion
