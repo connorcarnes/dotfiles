@@ -1,15 +1,5 @@
 # ~/.bash_completion
 
-# bash-completion usually installed in /usr/share/bash-completion/bash_completion
-# using /usr/local/share/bash-completion/bash_completion below because bash-completion
-# is installed from source in .chezmoiscripts/run_onchange_before_install-unixpkgs.sh.tmpl
-[[ -f /usr/local/share/bash-completion/bash_completion ]] && {
-    source /usr/local/share/bash-completion/bash_completion
-}
-# [[ -f /usr/share/bash-completion/bash_completion ]] && {
-#     source /usr/share/bash-completion/bash_completion
-# }
-
 # Check common locations for git-completion.bash and load the first match
 [[ ! $(type -t __git_complete) ]] && {
     locations=(

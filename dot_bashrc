@@ -15,6 +15,14 @@ export LC_ALL=C.UTF-8
 export PATH=$PATH:$HOME/.local/bin
 [[ -f ~/.env ]] && source ~/.env
 
+# bash-completion usually installed in /usr/share/bash-completion/bash_completion
+# using /usr/local/share/bash-completion/bash_completion below because bash-completion
+# is installed from source in .chezmoiscripts/run_onchange_before_install-unixpkgs.sh.tmpl
+[[ -f /usr/local/share/bash-completion/bash_completion ]] && {
+    source /usr/local/share/bash-completion/bash_completion
+    # [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
+}
+
 [[ -f ~/.bash_functions ]] && source ~/.bash_functions
 [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
 [[ -f ~/.bash_completion ]] && source ~/.bash_completion
