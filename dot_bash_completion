@@ -52,8 +52,8 @@ mkdir -p "${base_dir}"
 [[ $(command -v mise) ]] && {
     completion_file="${base_dir}/mise.bash"
     [[ ! -f "${completion_file}" ]] && {
-        #mise completion bash --include-bash-completion-lib > "${completion_file}"
-        mise completion bash > "${completion_file}"
+        mise completion bash --include-bash-completion-lib > "${completion_file}"
+        #mise completion bash > "${completion_file}"
     }
     source "${completion_file}"
 }
