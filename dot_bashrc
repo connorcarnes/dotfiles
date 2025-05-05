@@ -73,11 +73,13 @@ fi
     eval "$(oh-my-posh init bash --config ~/.oh-my-posh/custom.omp.json)"
 }
 
-# . "$HOME/.atuin/bin/env" > /dev/null
+[[ ! $(command -v atuin) ]] && {
+    source "$HOME/.atuin/bin/env"
+    df::log "atuin sourced"
+}
 
 [[ $(command -v atuin) ]] && {
     df::log "configuring atuin"
-    source "$HOME/.atuin/bin/env" > /dev/null
     [[ -n "$ATUIN_USERNAME" && -n "$ATUIN_PW" && -n "$ATUIN_KEY" ]] && {
         eval "$(atuin init bash)"
         atuin login \
