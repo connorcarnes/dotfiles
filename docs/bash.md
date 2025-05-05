@@ -39,26 +39,11 @@
 - **-R varname:** True if the shell variable varname is set and is a name reference.
 - **-z string:** True if the length of string is zero.
 - **-n string:** True if the length of string is non-zero.
-
-
-string1 == string2
-string1 = string2
-
-    True if the strings are equal. When used with the [[ command, this performs pattern matching as described above (see Conditional Constructs).
-
-    ‘=’ should be used with the test command for POSIX conformance.
-string1 != string2
-
-    True if the strings are not equal.
-string1 < string2
-
-    True if string1 sorts before string2 lexicographically.
-string1 > string2
-
-    True if string1 sorts after string2 lexicographically.
-arg1 OP arg2
-
-    OP is one of ‘-eq’, ‘-ne’, ‘-lt’, ‘-le’, ‘-gt’, or ‘-ge’. These arithmetic binary operators return true if arg1 is equal to, not equal to, less than, less than or equal to, greater than, or greater than or equal to arg2, respectively. Arg1 and arg2 may be positive or negative integers. When used with the [[ command, Arg1 and Arg2 are evaluated as arithmetic expressions (see Shell Arithmetic).
+- **string1 == string2 or string1 = string2:** True if the strings are equal. When used with the [[ command, this performs pattern matching as described above (see Conditional Constructs). ‘=’ should be used with the test command for POSIX conformance.
+- **string1 != string2**: True if the strings are not equal.
+- **string1 < string2:** True if string1 sorts before string2 lexicographically.
+- **string1 > string2:** True if string1 sorts after string2 lexicographically.
+- **arg1 OP arg2:** OP is one of ‘-eq’, ‘-ne’, ‘-lt’, ‘-le’, ‘-gt’, or ‘-ge’. These arithmetic binary operators return true if arg1 is equal to, not equal to, less than, less than or equal to, greater than, or greater than or equal to arg2, respectively. Arg1 and arg2 may be positive or negative integers. When used with the [[ command, Arg1 and Arg2 are evaluated as arithmetic expressions (see Shell Arithmetic).
 
 ## [shell arithmetic](https://www.gnu.org/software/bash/manual/bash.html#Shell-Arithmetic)
 
