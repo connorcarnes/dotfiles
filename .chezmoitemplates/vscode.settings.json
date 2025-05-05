@@ -280,7 +280,7 @@
   },
   "hediet.vscode-drawio.resizeImages": true,
   // DOTFILES
-  "dotfiles.repository": "sociotechnodev/dotfiles",
+  "dotfiles.repository": "connorcarnes/dotfiles",
   "dotfiles.targetPath": "~/.local/share/chezmoi",
   //"dotfiles.installCommand": ""
   // EXTENSIONS
