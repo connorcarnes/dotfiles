@@ -56,7 +56,7 @@ os_release="$(cat /etc/os-release)"
 }
 
 blesh_path="$HOME/.local/share/blesh/ble.sh"
-[[ ! -e "$blesh_path" ]] && {
+[[ ! -d "$blesh_path" ]] && {
     args+=( --recursive )
     args+=( --depth 1 )
     args+=( --shallow-submodules )
