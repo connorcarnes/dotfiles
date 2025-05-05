@@ -64,7 +64,7 @@ blesh_path="$HOME/.local/share/blesh/ble.sh"
     args+=( "https://github.com/akinomyoga/ble.sh.git" )
     git clone "${args[@]}" > /dev/null
     unset args
-    make --silent --directory=ble.sh install PREFIX=~/.local > /dev/null
+    make --silent --directory=ble.sh install PREFIX=~/.local
 }
 
 [[ ! $(command -v atuin) ]] && {

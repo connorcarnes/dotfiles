@@ -22,7 +22,7 @@ export PATH=$PATH:$HOME/.local/bin
 # https://github.com/akinomyoga/ble.sh?tab=readme-ov-file#13-set-up-bashrc
 # https://github.com/akinomyoga/ble.sh/discussions/254
 blesh_path="$HOME/.local/share/blesh/ble.sh"
-[[ -d "$blesh_path" ]] && {
+[[ -e "$blesh_path" ]] && {
     source "$blesh_path" --noattach
     df::log "ble.sh sourced"
 }
