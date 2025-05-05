@@ -30,7 +30,7 @@ os_release="$(cat /etc/os-release)"
     )
     pkgs=("${commonpkgs[@]}" "${dnfpkgs[@]}")
     dnf config-manager --quiet --add-repo "https://mise.jdx.dev/rpm/mise.repo" > /dev/null
-    dnf install --quiet --assumeyes "${dnfpkgs[@]}" > /dev/null
+    dnf install --quiet --assumeyes "${pkgs[@]}" > /dev/null
 }
 
 [[ $(command -v apt-get) ]] && {
