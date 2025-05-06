@@ -42,3 +42,9 @@ function df::glog() {
 [[ $(command -v df::log) ]] && {
     df::log "bash_functions sourced"
 }
+
+function df::gacp() {
+  local msg=${1:?"commit message is required"}
+  local branch=$(git symbolic-ref --short HEAD)
+  git add . && git commit -m "$msg" && git push origin $(git symbolic-ref --short HEAD)
+}
