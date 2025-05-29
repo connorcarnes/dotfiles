@@ -37,14 +37,14 @@
   "editor.fontLigatures": true,
   "editor.fontSize": 15,
   "editor.semanticHighlighting.enabled": true,
-  "editor.tokenColorCustomizations": {
-    "[Alabaster]": {
-      // "strings": "#448C27", // theme default
-      // "comments": "#AA3731" // theme default
-      "comments": "#448C27",
-      "strings": "#AA3731"
-    }
-  },
+  // "editor.tokenColorCustomizations": {
+  //   "[Alabaster]": {
+  //     // "strings": "#448C27", // theme default
+  //     // "comments": "#AA3731" // theme default
+  //     "comments": "#448C27",
+  //     "strings": "#AA3731"
+  //   }
+  // },
   // zenMode - full screen editing changes
   "zenMode.centerLayout": false,
   "zenMode.fullScreen": true,
@@ -264,11 +264,12 @@
     "no-hard-tabs": false
   },
   "files.exclude": {
-    "**/.git": false
+    "**/.git": true
   },
   "files.watcherExclude": {
-    "**/.git/objects/**": false,
-    "**/.git/subtree-cache/**": false,
+    "**/.git": true,
+    //"**/.git/objects/**": false,
+    //"**/.git/subtree-cache/**": false,
     "**/node_modules/*/**": false
   },
   "[css]": {
